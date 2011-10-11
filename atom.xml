@@ -1,25 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-
-  <title><![CDATA[Pierre Andrews]]></title>
-  <link href="http://Mortimerp9.github.com/atom.xml" rel="self"/>
-  <link href="http://Mortimerp9.github.com/"/>
-  <updated>2011-10-07T22:38:48+02:00</updated>
-  <id>http://Mortimerp9.github.com/</id>
-  <author>
-    <name><![CDATA[Pierre Y. Andrews]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
-
-  
-  <entry>
-    <title type="html"><![CDATA[This Will Be the Place for New Content]]></title>
-    <link href="http://Mortimerp9.github.com/blog/2011/10/06/this-will-be-the-place-for-new-content/"/>
-    <updated>2011-10-06T23:53:00+02:00</updated>
-    <id>http://Mortimerp9.github.com/blog/2011/10/06/this-will-be-the-place-for-new-content</id>
-    <content type="html"><![CDATA[<h1>This website is under construction and real content will be available soon (haven&#8217;t you heard that before!).</h1>
-]]></content>
-  </entry>
-  
+ 
+ <title>Dr. Pierre Andrews &amp;mdash; Research Fellow</title>
+ <link href="http://disi.unitn.it/~andrews//atom.xml" rel="self"/>
+ <link href="http://disi.unitn.it/~andrews/"/>
+ <updated>2011-10-11T22:05:54+02:00</updated>
+ <id>http://disi.unitn.it/~andrews/</id>
+ <author>
+   <name>Dr. Pierre Andrews</name>
+   <email>andrews@disi.unitn.it</email>
+ </author>
+ 
+ 
+ <entry>
+   <title>Clues of Personal Events in Online Photo Sharing</title>
+   <link href="http://disi.unitn.it/~andrews//publications/derive11"/>
+   <updated>2011-10-23T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/derive11</id>
+   <content type="html">Authors: Pierre Andrews, Javier Paniagua and Fausto Giunchiglia. Abstract: &lt;p&gt;There is currently a trend in media management and the semantic web to develop new media processing methods and knowledge representation techniques to organise and structure media around events.&lt;br /&gt;
+While this increased interest for events as the central aggregator when organising media is supported by strong research in the fields of knowledge representation and computer vision; it is not yet clear how the digital era users use events when sharing their personal media collection.&lt;br /&gt;
+In this paper, we explore how users share photos online and discuss the results of a preliminary automatic processing of the data collected.&lt;br /&gt;
+We show that while media sharing services do not support events as yet, users still share their media around personal events, either by providing explicit spatio-temporal metadata, or by using an event-centric vocabulary.&lt;/p&gt;
+&lt;p&gt;The research leading to these results has received funding from the European Community&amp;#8217;s Seventh Framework Programme (FP7/2007-2013) under grant agreement no248984 &lt;a href=&quot;http://glocal-project.eu/&quot;&gt;&lt;span class=&quot;caps&quot;&gt;GLOCAL&lt;/span&gt;&lt;/a&gt; and no247758 &lt;a href=&quot;https://www.eternals.eu/&quot;&gt;EternalS&lt;/a&gt;.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Semantic Disambiguation in Folksonomy; a Case Study</title>
+   <link href="http://disi.unitn.it/~andrews//publications/alt4dl11"/>
+   <updated>2011-09-09T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/alt4dl11</id>
+   <content type="html">Authors: Andrews, Pierre and Pane, Juan and Zaihrayeu, Ilya. Abstract: &lt;p&gt;Social annotation systems such as del.icio.us, Flickr and others have gained tremendous popularity among Web 2.0 users. One of the factors of success was the simplicity of the underlying model, which consists of a resource (e.g., a web page), a tag (e.g., a text string), and a user who annotates the resource with the tag. However, due to the syntactic nature of the underlying model, these systems have been criticised for not being able to take into account the explicit semantics implicitly encoded by the users in each tag. In this article we: a) provide a formalisation of an annotation model in which tags are based on concepts instead of being free text strings; b) describe how an existing annotation system can be converted to the proposed model; c) report on the results of such a conversion on the example of a del.icio.us dataset; and d) show how the quality of search can be improved by the semantic in the converted dataset.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Adopting Semantic Annotation Systems for Corporate Portal Management -- Telefonica Case Study</title>
+   <link href="http://disi.unitn.it/~andrews//publications/isem11"/>
+   <updated>2011-09-01T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/isem11</id>
+   <content type="html">Authors: Ilya Zaihrayeu, German Toro del Valle, Juan Pane, Pierre Andrews. Abstract: &lt;p&gt;Corporate portals, such as the one used by the Telef\&amp;#8216;onica group, make an important integral part of the enterprise infrastructure, facilitating the creation, sharing, discovery and consumption of enterprise assets through blogs, news, forums, documents and information in general. However, as the amount of data grows, it becomes much more difficult to access the right asset in the precise moment when it is needed. Annotation systems try to address this problem to a certain extent by allowing the users to collaboratively annotate assets using tags so they can be found more easily by reusing these tags in queries. However, this model often falls short due to mismatches in the vocabularies of different users who use synonymous, polysemous, or more specific (or general) terms in tagging and searching. In this paper we: (a) provide an analysis of the corporate portal of the Telef\&amp;#8217;onica group; (b) identify requirements for a semantics-based annotation system that is capable of addressing the above-mentioned shortcomings; &amp;#169; define a semantic annotation model that meets the requirements; (d) provide the details of the implementation of the annotation model for the Telef\&amp;#8217;onica portal; and (e) report the results of an initial evaluation of a concept-based search enabled by the model.&lt;/p&gt;
+&lt;p&gt;This work has been partly supported by the &lt;a href=&quot;http://www.insemtives.eu&quot;&gt;&lt;span class=&quot;caps&quot;&gt;INSEMTIVES&lt;/span&gt;&lt;/a&gt; project FP7-231181.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Supporting Semantic Annotations in Flickr</title>
+   <link href="http://disi.unitn.it/~andrews//publications/iccp11"/>
+   <updated>2011-08-25T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/iccp11</id>
+   <content type="html">Authors: Pierre Andrews, Juan Pane, Ilya Zaihrayeu and Aliaxandr Autayeu. Abstract: &lt;p&gt;In this paper we propose an extension to the tripartite folksonomy model to explicitly encode the semantics of tags.&lt;br /&gt;
+This enables stronger semantic services for the user such as search taking into account synonymy and hypernymy in a knowledge organisation system.&lt;br /&gt;
+However, automatic disambiguation is not yet possible and inputting the semantics of tags manually should not be a chore for the users.&lt;br /&gt;
+We thus propose a set of user interfaces features, illustrated in a working uploader for Flickr, that simplify the semantic annotation of photos before their publication.&lt;br /&gt;
+Finally, we discuss the enabling services for such interfaces, thus providing a complete description of the theoretical and practical issues of semantic annotations on Flickr.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Sense Induction in Folksonomies</title>
+   <link href="http://disi.unitn.it/~andrews//publications/lhd11"/>
+   <updated>2011-07-16T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/lhd11</id>
+   <content type="html">Authors: Pierre Andrews, Juan Pane, Ilya Zaihrayeu. Abstract: &lt;p&gt;Folksonomies, often known as tagging systems, such as the ones used on the popular Delicious or flickr websites, use a very simple knowledge organisation system.&lt;br /&gt;
+Users are thus quick to adopt this system and create extensive knowledge annotations on the Web.&lt;br /&gt;
+However, because of the simplicity of the folksonomy model, the semantics of the tags used is not explicit and can only be inferred from the context of use of the tags.&lt;br /&gt;
+This is a barrier for the automatic use of such knowledge organisation systems by computers and new techniques have to be developed to extract the semantic of the tags used.&lt;br /&gt;
+In this paper we discuss an algorithm to detect new senses of terms in a folksonomy; we also propose a formal evaluation methodology that will enable to compare results between different approaches in the field.&lt;/p&gt;
+&lt;div class=&quot;prezi-player&quot;&gt;&lt;style type=&quot;text/css&quot; media=&quot;screen&quot;&gt;.prezi-player { width: 550px; } .prezi-player-links { text-align: center; }&lt;/style&gt;&lt;p&gt;&lt;object id=&quot;prezi_a_xxadyce24l&quot; name=&quot;prezi_a_xxadyce24l&quot; classid=&quot;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&quot; width=&quot;550&quot; height=&quot;400&quot;&gt;&lt;param name=&quot;movie&quot; value=&quot;http://prezi.com/bin/preziloader.swf&quot;/&gt;&lt;param name=&quot;allowfullscreen&quot; value=&quot;true&quot;/&gt;&lt;param name=&quot;allowscriptaccess&quot; value=&quot;always&quot;/&gt;&lt;param name=&quot;bgcolor&quot; value=&quot;#ffffff&quot;/&gt;&lt;param name=&quot;flashvars&quot; value=&quot;prezi_id=a_xxadyce24l&amp;amp;lock_to_path=0&amp;amp;color=ffffff&amp;amp;autoplay=no&amp;amp;autohide_ctrls=0&quot;/&gt;&lt;embed id=&quot;preziEmbed_a_xxadyce24l&quot; name=&quot;preziEmbed_a_xxadyce24l&quot; src=&quot;http://prezi.com/bin/preziloader.swf&quot; type=&quot;application/x-shockwave-flash&quot; allowfullscreen=&quot;true&quot; allowscriptaccess=&quot;always&quot; width=&quot;550&quot; height=&quot;400&quot; bgcolor=&quot;#ffffff&quot; flashvars=&quot;prezi_id=a_xxadyce24l&amp;amp;lock_to_path=0&amp;amp;color=ffffff&amp;amp;autoplay=no&amp;amp;autohide_ctrls=0&quot;&gt;&lt;/embed&gt;&lt;/object&gt;&lt;div class=&quot;prezi-player-links&quot;&gt;&lt;p&gt;&lt;a title=&quot;Pierre Andrews, Juan Pane and Ilya Zaihrayeu, Knowdive, University of Trento for the Insemtives EU project. Presented at Workshop on Discovering Meaning On the Go in Large Heterogeneous Data 2011 (LHD-11), IJCAI 2011&quot; href=&quot;http://prezi.com/a_xxadyce24l/sense-induction-in-folksonomies/&quot;&gt;Sense Induction in Folksonomies&lt;/a&gt; on &lt;a href=&quot;http://prezi.com&quot;&gt;Prezi&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;p&gt;This work has been partially supported by &lt;span class=&quot;caps&quot;&gt;INSEMTIVES&lt;/span&gt; project (FP7-231181, see (http://www.insemtives.eu):http://www.insemtives.eu ).&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Semantic Annotation of Images on Flickr</title>
+   <link href="http://disi.unitn.it/~andrews//publications/eswcdemo"/>
+   <updated>2011-06-02T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/eswcdemo</id>
+   <content type="html">Authors: Pierre Andrews, Sergey Kanshin, Juan Pane, and Ilya Zaihrayeu. Abstract: &lt;p&gt;In this paper we introduce an application that allows its users to have an explicit control on the meaning of tags they use when uploading photos on Flickr.&lt;br /&gt;
+In fact, this application provides to the users an improved interface with which they can add concepts to photos instead of simple free-text tags.&lt;br /&gt;
+They can thus directly provide semantic tags for their photos that can then be used to improve services such as search.&lt;/p&gt;
+&lt;p&gt;This work has been partly supported by the &lt;span class=&quot;caps&quot;&gt;INSEMTIVES&lt;/span&gt; project (FP7-231181, see http://www.insemtives.eu)&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Extending Conversational Agents for Task-Oriented Human-Computer Dialogue</title>
+   <link href="http://disi.unitn.it/~andrews//publications/igi"/>
+   <updated>2011-04-01T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/igi</id>
+   <content type="html">Authors: Pierre Andrews, Silvia Quarteroni. Abstract: &lt;p&gt;We present the role of conversational agents in two task-oriented human-computer dialogue applications: Interactive Question Answering and Persuasive Dialogue.&lt;/p&gt;
+&lt;p&gt;We show that conversational agents can be effectively deployed for interaction that goes beyond user entertainment and can be successfully used as a means to achieve complex tasks.&lt;/p&gt;
+&lt;p&gt;Conversational agents are a winning solution in Persuasive Dialogue because, combined with a planning infrastructure, they can help manage the parts of the dialogue that cannot be planned a priori and are primordial to keep the system persuasive. In Interactive Question Answering, conversational approaches lead users to the explicit formulation of queries, allow for the submission of further queries and accomodate related queries thanks to their ability to handle context.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Lightweight Parsing of Classiﬁcations into Lightweight Ontologies</title>
+   <link href="http://disi.unitn.it/~andrews//publications/ecdl10"/>
+   <updated>2010-09-10T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/ecdl10</id>
+   <content type="html">Authors: Aliaksandr Autayeu, Fausto Giunchiglia, and Pierre Andrews. Abstract: &lt;p&gt;Understanding metadata written in natural language is a premise to successful automated integration of large scale, language-rich, classifications such as the ones used in digital libraries. We analyze the natural language labels within classification by exploring their syntactic structure, we then show how this structure can be used to detect patterns of language that can be processed by a lightweight parser with an average accuracy of 96.82%. This allows for a deeper understanding of natural language metadata semantics, which we show can improve by almost 18% the accuracy of the automatic translation of classifications into lightweight ontologies required by semantic matching, search and classification algorithms.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Keynote @ Webcentives 2010</title>
+   <link href="http://disi.unitn.it/~andrews//publications/webcentives"/>
+   <updated>2010-05-18T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/webcentives</id>
+   <content type="html">Authors: Pierre Andrews. Abstract: &lt;p&gt;Introduction to the Insemtives.eu project and the need for creating better interfaces and incentives to help the users create more semantic content on the web.&lt;/p&gt;
+&lt;p&gt;The presentation discusses the cases of Flickr.com and del.icio.us and look at the tagging habits in these folksonomies. The study of two large datasets show that the majority of users do not use the tagging system and the social features available on this web 2.0 sites.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Media Aggregation via Events</title>
+   <link href="http://disi.unitn.it/~andrews//publications/events10"/>
+   <updated>2010-05-04T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/events10</id>
+   <content type="html">Authors: Fausto Giunchiglia, Pierre Andrews, Gaia Trecarichi, and Ronald Chenu-Abente. Abstract: &lt;p&gt;Events have been recognised as important metadata to fill the semantic gap between our experience of the world represented in media and its conceptualization. In this paper, we argue that, once event metadata can be extracted, there remains a gap between different users conceptualizations. We then show how a compositional event model can mitigate such a social semantic gap through higher level descriptions of events where an agreement can be reached. In turn, this enables semantic services which improve event-centric search and navigation of shared media.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class=&quot;caps&quot;&gt;URN&lt;/span&gt;:&lt;/strong&gt; &lt;a href=&quot;http://nbn-resolving.de/urn:nbn:de:0074-624-1&quot;&gt;urn:nbn:de:0074-624-1&lt;/a&gt;&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Recommendations for Better Quality Ontology Matching Evaluations</title>
+   <link href="http://disi.unitn.it/~andrews//publications/aisb10"/>
+   <updated>2010-03-31T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/aisb10</id>
+   <content type="html">Authors: Aliaksandr Autayeu, Vincenzo Maltese, Pierre Andrews. Abstract: &lt;p&gt;Evaluating and comparing different ontology matching techniques is a complex multifaceted problem. Currently, diverse golden standards and various practices are used for evaluations. In this paper we show that, by following certain rules, the quality of the evaluations can be significantly improved, particularly in regard to the accuracy of precision and recall measures obtained.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Best Practices for Ontology Matching Tools Evaluation</title>
+   <link href="http://disi.unitn.it/~andrews//publications/om09"/>
+   <updated>2009-10-25T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/om09</id>
+   <content type="html">Authors: Aliaksandr Autayeu, Vicenzo Maltese, and Pierre Andrews. Abstract: &lt;p&gt;In the current state of the art in ontology matching, diverse golden standards are used to evaluate the algorithms. In this paper we show that by following appropriate rules in their construction and use, the quality of the evaluations can be signicantly improved, particularly in the accuracy of the precision and recall measures obtained.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>A SVM Cascade for Agreement/Disagreement Classification</title>
+   <link href="http://disi.unitn.it/~andrews//publications/talnlp"/>
+   <updated>2009-09-29T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/talnlp</id>
+   <content type="html">Authors: Pierre Andrews,  Suresh Manandhar. Abstract: &lt;p&gt;This article describes a method for classifying dialogue utterances and detecting interlocutor’s agreement or disagreement. This labelling can help improve dialogue management by providing additional information on the utterance’s content without deep parsing. The proposed technique improves upon state-of-the-art approaches by using a Support Vector Machine cascade. A combination of three binary support vector machines in a cascade is employed to filter out utterances that are easy to classify, thus reducing the noise in the learning of labels for more ambiguous utterances. The approach achieves higher accuracy (by 2.47%) than the state-of-the-art while using a simpler approach which relies only on shallow local features of the utterances.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Lightweight Parsing of Natural Language Metadata</title>
+   <link href="http://disi.unitn.it/~andrews//publications/nlp4dl"/>
+   <updated>2009-06-15T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/nlp4dl</id>
+   <content type="html">Authors: Aliaksandr Autayeu, Fausto Giunchiglia, Pierre Andrews. Abstract: &lt;p&gt;Understanding metadata written in natural language is a premise to successful automated integration of large scale language-rich datasets, such as digital libraries. In this paper we describe an analysis of the part of speech structure of two different datasets of metadata, show how this structure can be used to detect structural patterns that can be parsed by lightweight grammars with an accuracy ranging from 95.3% to 99.8%. This allows deeper understanding of metadata semantics, important for such tasks as translating classifications into lightweight ontologies for use in semantic matching.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Measure Of Belief Change as an Evaluation of Persuasion</title>
+   <link href="http://disi.unitn.it/~andrews//publications/aisb"/>
+   <updated>2009-04-01T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/aisb</id>
+   <content type="html">Authors: Pierre Andrews and Suresh Manandhar. Abstract: &lt;p&gt;In the ﬁeld of natural argumentation and computer persuasion, there has not been any clear deﬁnition of the persuasiveness of a system trying to inﬂuence the user. In this paper, we describe a general evaluation task that can be instantiated on a number of domains to evaluate the beliefs change of participants. Through the use of a ranking task, we can measure the participant’s change of beliefs related to a behaviour or an attitude. This general metric allows a better comparison of state of the art persuasive systems.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Argumentative Human Computer Dialogue for Automated Persuasion</title>
+   <link href="http://disi.unitn.it/~andrews//publications/sigdial"/>
+   <updated>2008-06-19T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/sigdial</id>
+   <content type="html">Authors: Pierre Andrews,  Suresh Manandhar and Marco De Boni. Abstract: &lt;p&gt;Argumentation is an emerging topic in the field of human computer dialogue. In this paper we describe a novel approach to dialogue management that has been developed to achieve persuasion using a textual argumentation dialogue system. The paper introduces a layered management architecture that mixes task oriented dialogue techniques with chatbot techniques to achieve better persuasiveness in the dialogue.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Integrating Emotions in Persuasive Dialogue: A Multi-Layer Reasoning Framework</title>
+   <link href="http://disi.unitn.it/~andrews//publications/flairs"/>
+   <updated>2006-05-01T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/flairs</id>
+   <content type="html">Authors: Pierre Andrews,  Suresh Manandhar and Marco De Boni. Abstract: &lt;p&gt;Human computer dialogue systems &amp;#8212; despite being the subject of a long research &amp;#8212; are limited to a few restricted domains and are still considered austere by their users. There is evidence that humans act differently when engaged in computer dialogue than during human to human dialogue [Shechtman03Media]. This is because dialogue systems do not take into account aspects contributing to the natural effect of human to human conversation, such as emotions and social cues.&lt;/p&gt;
+&lt;p&gt;Our current research focuses on using human-computer dialogue for health-care counselling. In particular, we are developing a dialogue system that should be capable of changing the user health behaviour based on techniques of persuasion and argumentation.&lt;/p&gt;
+&lt;p&gt;In our opinion, natural argumentation &amp;#8212; especially persuasive argumentation &amp;#8212; to show empathy and use social cues to be effective [andrews06persuasive]. We describe here the design of a multi layer framework to separate the persuasion planning and the management of surface-level dialogue cues.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Persuasive Argumentation in Human Computer Dialogue</title>
+   <link href="http://disi.unitn.it/~andrews//publications/ach06"/>
+   <updated>2006-03-01T00:00:00+01:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/ach06</id>
+   <content type="html">Authors: Pierre Andrews, Marco De Boni and Suresh Manandhar. Abstract: &lt;p&gt;In the field of natural language dialogue, a new trend is exploring persuasive argumentation theories. Applying these theories to human-computer dialogue management could lead to a more comfortable experience for the user and give way to new applications.&lt;/p&gt;
+&lt;p&gt;In this paper, we study the different aspects of persuasive communication needed for health-care advising and how to implement them to produce efficient, computer directed persuasion. Our opinion is that a persuasive dialogue will have to combine the current logical approach to persuasion with novel emotional cues to render the dialogue more comfortable to the user.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Using the EDR large scale semantic dictionary: application to conceptual document indexing</title>
+   <link href="http://disi.unitn.it/~andrews//publications/edr"/>
+   <updated>2005-05-01T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/edr</id>
+   <content type="html">Authors: Rajman, Martin and Andrews, Pierre and del Mar Pérez Almenta, María and Seydoux, Florian. Abstract: &lt;p&gt;Automatic indexing is one of the important technologies used for Tex-tual Data Analysis applications. Standard document indexing techniques usually identify the most relevant keywords in the documents. This paper presents an alternative approach that aims at performing document indexing by associating concepts with the document to index instead of extracting keywords out of it. The concepts are extracted out of the &lt;span class=&quot;caps&quot;&gt;EDR&lt;/span&gt; Electronic Dictionary that provides a con- cept hierarchy based on hyponym/hypernym relations. An experimental evaluation based on a probabilistic model was performed on a sample of the &lt;span class=&quot;caps&quot;&gt;INSPEC&lt;/span&gt; bibliographic database and we present the promising results that were obtained during the evaluation experiments.&lt;/p&gt;
+&lt;p&gt;Human computer dialogue systems &amp;#8212; despite being the subject of a long research &amp;#8212; are limited to a few restricted domains and are still considered austere by their users. There is evidence that humans act differently when engaged in computer dialogue than during human to human dialogue [Shechtman03Media]. This is because dialogue systems do not take into account aspects contributing to the natural effect of human to human conversation, such as emotions and social cues.&lt;/p&gt;
+&lt;p&gt;Our current research focuses on using human-computer dialogue for health-care counselling. In particular, we are developing a dialogue system that should be capable of changing the user health behaviour based on techniques of persuasion and argumentation.&lt;/p&gt;
+&lt;p&gt;In our opinion, natural argumentation &amp;#8212; especially persuasive argumentation &amp;#8212; to show empathy and use social cues to be effective [andrews06persuasive]. We describe here the design of a multi layer framework to separate the persuasion planning and the management of surface-level dialogue cues.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>State of the Art, Evaluation and Recommendations regarding "Document Processing and Visualization Techniques"</title>
+   <link href="http://disi.unitn.it/~andrews//publications/nemis"/>
+   <updated>2004-12-29T00:00:00+01:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/nemis</id>
+   <content type="html">Authors: Martin Rajman, Martin Vesely, Pierre Andrews. Abstract: &lt;p&gt;Several Networks of Excellence have been set up in the framework of the European FP5 research program. Among these Networks of Excellence, the &lt;span class=&quot;caps&quot;&gt;NEMIS&lt;/span&gt; project focuses on the field of Text Mining.&lt;/p&gt;
+&lt;p&gt;Within this field, document processing and visualization was identified as one of the key topics and the WG1 working group was created in the &lt;span class=&quot;caps&quot;&gt;NEMIS&lt;/span&gt; project, to carry out a detailed survey of techniques associated with the text mining process and to identify the relevant research topics in related research areas.&lt;/p&gt;
+&lt;p&gt;In this document we present the results of this comprehensive survey. The report includes a description of the current state-of-the-art and practice, a roadmap for follow-up research in the identified areas, and recommendations for anticipated technological development in the domain of text mining.&lt;/p&gt;</content>
+ </entry>
+ 
+ <entry>
+   <title>Thematic Annotation extracting concepts out of documents</title>
+   <link href="http://disi.unitn.it/~andrews//publications/epfltech"/>
+   <updated>2004-08-01T00:00:00+02:00</updated>
+   <id>http://disi.unitn.it/~andrews//publications/epfltech</id>
+   <content type="html">Authors: Andrews, Pierre. Abstract: &lt;p&gt;Semantic document annotation may be useful for many tasks. In particular, in the framework of the &lt;span class=&quot;caps&quot;&gt;MDM&lt;/span&gt; project, topical annotation – i.e. the annotation of document segments with tags identifying the topics discussed in the segments – is used to enhance the retrieval of multimodal meeting records. Indeed, with such an annotation, meeting retrieval can integrate topics in the search criteria offered to the users.&lt;/p&gt;
+&lt;p&gt;Contrarily to standard approaches to topic annotation, the technique used in this work does not centraly rely on some sort of – possibly statistical – keyword extraction. In fact, the proposed annotation algorithm uses a large scale semantic database – the &lt;span class=&quot;caps&quot;&gt;EDR&lt;/span&gt; Electronic Dictionary – that provides a concept hierarchy based on hyponym and hypernym relations.This concept hierarchy is used to generate a synthetic representation of the document by aggregating the words present in topically homogeneous document segments into a set of concepts best preserving the document&amp;#8217;s content.&lt;/p&gt;
+&lt;p&gt;The identification of the topically homogeneous segments – often called Text Tiling – is performed to ease the computation as the algorithm will work on smaller text fragments. In addition, it is believed to improve the precision of the extraction as it is performed on topically homogeneous segments. For this task, a standard techniques – proposed by [Hea94] – relying on similarity computation based on vector space representations have been implemented. Hence, the main challenge in the project was to create a novel topic identification algorithm, based on the available semantic resource, that produces good results when applied on the automatically generated segments.&lt;/p&gt;
+&lt;p&gt;This new extraction technique uses an unexplored approach to topic selection. Instead of using semantic similarity measures based on a semantic resource, the later is processed to extract the part of the conceptual hierarchy relevant to the document content. Then this conceptual hierarchy is searched to extract the most relevant set of concepts to represent the topics discussed in the document. Notice that this algorithm is able to extract generic concepts that are not directly present in the document.&lt;/p&gt;
+&lt;p&gt;The segmentation algorithm was evaluated on the Reuters corpus, composed of 806&amp;#8217;791 news items. These items were aggregated to construct a single virtual document where the algorithm had to detect boundaries. These automatically generated segments were then compared to the initial news items and a metric has been developed to evaluate the accuracy of the algorithm.&lt;/p&gt;
+&lt;p&gt;The proposed approach for topic extraction was experimentally tested and evaluated on a database of 238 documents corresponding to bibliographic descriptions extracted from the &lt;span class=&quot;caps&quot;&gt;INSPEC&lt;/span&gt; database. A novel evaluation metric was designed to take into account the fact that the topics associated with the &lt;span class=&quot;caps&quot;&gt;INSPEC&lt;/span&gt; descriptions – taken as the golden truth for the evaluation – were not produced based on the &lt;span class=&quot;caps&quot;&gt;EDR&lt;/span&gt; dictionary, and therefore needed to be approximated by the available &lt;span class=&quot;caps&quot;&gt;EDR&lt;/span&gt; entries.&lt;/p&gt;
+&lt;p&gt;Alltogether, the combination of existing document segmentation methods – i.e text tiling – with novel topic identification ones leads to an additional document annotation useful for more robust retrieval.&lt;/p&gt;</content>
+ </entry>
+ 
+ 
 </feed>
