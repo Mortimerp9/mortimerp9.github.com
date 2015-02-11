@@ -3,7 +3,7 @@ layout: 'content'
 title: 'Safely parsing Strings to numbers in Scala'
 ---
 
-#Too much boilerplate
+###Too much boilerplate
 
 In Java and Scala, you can convert `String` to numbers pretty easily, but as you might imagine, not all strings will convert to a number. In both languages, to safely convert your strings, you need to be ready to catch a `NumberFormatException`. This often creates quite a lot of boilerplate, even in scala.
 
@@ -28,7 +28,7 @@ def safeStringToInt(str: String): Option[Int] = {
 
 That's already a lot better!
 
-#Make it an util
+###Make it an util
 
 While it's a lot less boilerplate, you need to have this method in your context somewhere and then call it. If you come form Java, you would think of doing this with a static method in some util class. In Scala, there is a much neatier way of doing it: implicits!
 

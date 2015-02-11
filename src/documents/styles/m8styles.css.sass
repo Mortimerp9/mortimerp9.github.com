@@ -6,40 +6,71 @@ body {
 header, article {
     margin: 0 auto;
     width: 100%;
-    max-width: 650px;
+    max-width: 690px;
 }
 
-header {    
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-top: 20px;
-  margin-bottom: 80px;
-  border-bottom: 1px solid hsl(0, 0%, 80%);
-  max-width: 800px;
+header {
+    padding-top: 20px;
+    margin-top: 20px;
+    margin-bottom: 70px;
+    max-width: 800px;
 
-  h1 {
-  text-indent: 3px;
-  font-size: 14px;
-  display: inline-block;
-  text-transform: uppercase;
-  margin: 0;
-  }
+    h1 {
+        text-indent: 3px;
+        font-size: 14px;
+        display: inline-block;
+        text-transform: uppercase;
+        margin: 0;
+    }
 
-  .right {
-      float: right;
-      display: inline-block;
-      text-transform: uppercase;
-  }
+    .right {
+        float: right;
+        display: inline-block;
+        text-transform: uppercase;
+    }
+
+    hr {
+        padding: 0;
+        border: none;
+        border-top: medium double #333;
+        color: #333;
+        text-align: center;
+    }
+    hr:after {
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transform: translate(0, 0);
+        content: "\f121";
+        display: inline-block;
+        position: relative;
+        top: -0.85em;
+        font-size: 0.9em;
+        padding: 0 0.25em;
+        background: white;
+    }
 }
 
 article {
     margin-bottom: 100px;
 
+    h2 {
+        width: 80%;
+        text-align: center;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-bottom: 70px;
+        font-family: 'Josefin Sans', sans-serif;
+        font-size: 2.1em;
+    }
+
     a {
         text-decoration: none;
         color: #358cce;
     }
-    
+
     blockquote {
         padding-left: 10px;
         border-left: 5px solid #efefef;
@@ -52,6 +83,7 @@ article {
     }
 
     p code {
+        font-family: 'Source Code Pro', monospace;
         padding: 4px;
         font-size: 90%;
         background-color: rgb(250,250,250);
@@ -60,6 +92,7 @@ article {
 
 
     .highlight {
+        font-family: 'Source Code Pro', monospace;
         margin-top: 1em;
         margin-bottom: 1.6em;
         font-size: 90%;
@@ -67,6 +100,10 @@ article {
         padding: 1em;
         padding-left: 2em;
         background-color: rgb(250,250,250);
+
+        pre, code {
+            font-family: 'Source Code Pro', monospace;
+        }
     }
 }
 
@@ -79,8 +116,28 @@ h2 {
 }
 
 h1,h2,h3 {
-        a {
+    a {
         color: inherit;
         text-decoration: none;
+    }
+}
+
+.index {
+    list-style-type: none;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1.3em;
+    padding: 0;
+    margin: 0;
+
+    li {
+        h3 {
+            display: inline-block;
         }
+        &:before {
+            margin-right: 1em;
+            font: normal normal normal 14px/1 FontAwesome;
+            content: "\f126";
+            display: inline-block;
+        }
+    }
 }

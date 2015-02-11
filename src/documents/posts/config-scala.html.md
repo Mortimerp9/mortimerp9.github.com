@@ -1,6 +1,6 @@
 ---
 layout: 'content'
-title: 'Easier access to Configuration values in with Typesafe Config'
+title: 'Easier access to Configuration values with Typesafe Config'
 ---
 
 It all started when I was trying to configure a set of scheduled tasks for [Play! 2][1], and it got me launched on a "scrap the boilerplate" mission in my application configuration.

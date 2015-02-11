@@ -9,7 +9,7 @@ I am giving a simple example here, it's a bit naive and there would be other way
 This will help the compiler can automatically detect more errors and a code reviewer to understand better what's going on.
 
 
-#A Use Case
+###A Use Case
 
 Imagine that you are trying to get users to score products. Each product can be scored along different dimensions: design, usability, durability.
 
@@ -49,7 +49,7 @@ There are two errors in this code:
 1. the scala compiler performing type check would straightaway flag the inverted product/user parameters as a compilation error: `type mismatch;  found   : Product required: User`,
 2. however, the second error, inverting the `durability` score and the `usability` score will not be spotted by the compiler and even a code reviewer would have to be very concentrated to spot such a trivial error.
 
-#Wrappers
+###Wrappers
 
 The simple solution would be to create wrapper classes for each type of score:
 
@@ -78,7 +78,7 @@ This is already quite a good solution and it will go a long way. But imagine tha
 You could also implement a proxy `+` operator in all new wrapper case class and replicate all other operations you might need within the wrapper.
 When it's just one operation, for three case classes, that's fine. But if you deal with more complex basic types, such as `String` or composed types, such as `List[Int]` or `Future[Int]`, you might end up having to proxy a lot of operations in your wrappers. If you have loads of such wrappers, it might be a lot of extra code.
 
-#Unboxed Tagged Types
+###Unboxed Tagged Types
 
 The idea that I have decided to follow, inspired by [Eric's article](http://etorreborre.blogspot.de/2011/11/practical-uses-for-unboxed-tagged-types.html), is to use __"Unboxed Tagged Types"__.
 The idea is that you can "tag" types (and not just basic types) with a keyword, without loosing all its operations as you would with a simple wrapper. 
@@ -170,7 +170,7 @@ I hope that through this simplistic example, you have been able to understand ho
 1. in many cases, the compiler will warm you when you are using a value in the wrong slot.
 2. by annotating method signatures (_in_ and _out_ types), and the uses of raw types in your code, this one will be easier to understand and you will hopefully make less errors and quickly spot bugs.
 
-#Parameter Validation
+###Parameter Validation
 
 As [George Leontiev](http://www.folone.info/blog/Typelevel-Hackery/) points out, you can also use this feature to perform validation.   
 

@@ -23,14 +23,10 @@ docpadConfig = {
 			title: "Pierre Andrews"
 
 			# The website description (for SEO)
-			description: """
-				TODO
-				"""
+			description: "The personal website/blog of Pierre Andrews"
 
 			# The website keywords (for SEO) separated by commas
-			keywords: """
-				place, your, website, keywoards, here, keep, them, related, to, the, content, of, your, website
-				"""
+			keywords: "pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs"
 
 			# The website's styles
 			styles: [
@@ -43,13 +39,7 @@ docpadConfig = {
 
 			# The website's scripts
 			scripts: [
-				"""
-				<!-- jQuery -->
-				<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-				<script>window.jQuery || document.write('<script src="/vendor/jquery.js"><\\/script>')</script>
-				"""
-
-				'/vendor/log.js'
+#				'/vendor/log.js'
 				'/vendor/modernizr.js'
 				'/scripts/script.js'
 			]
@@ -143,6 +133,11 @@ docpadConfig = {
 					res.redirect(newUrl+req.url, 301)
 				else
 					next()
+
+    plugins:
+        ghpages:
+            deployRemote: 'origin'
+            deployBranch: 'master'
 }
 
 # Export our DocPad Configuration
