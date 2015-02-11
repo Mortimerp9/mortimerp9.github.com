@@ -1,0 +1,107 @@
+body {
+  margin: 8px;
+  font-family: "Raleway", Helvetica, sans-serif; }
+
+header, article {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 690px; }
+
+header {
+  padding-top: 20px;
+  margin-top: 20px;
+  margin-bottom: 70px;
+  max-width: 800px; }
+  header h1 {
+    text-indent: 3px;
+    font-size: 14px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 0; }
+  header .right {
+    float: right;
+    display: inline-block;
+    text-transform: uppercase; }
+  header hr {
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center; }
+  header hr:after {
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    content: "\f121";
+    display: inline-block;
+    position: relative;
+    top: -0.85em;
+    font-size: 0.9em;
+    padding: 0 0.25em;
+    background: white; }
+
+article {
+  margin-bottom: 100px; }
+  article h2 {
+    width: 80%;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 70px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 2.1em; }
+  article a {
+    text-decoration: none;
+    color: #358cce; }
+  article blockquote {
+    padding-left: 10px;
+    border-left: 5px solid #efefef;
+    margin: 0;
+    margin-bottom: 1.6em; }
+    article blockquote p {
+      font-style: italic; }
+  article p code {
+    font-family: 'Source Code Pro', monospace;
+    padding: 4px;
+    font-size: 90%;
+    background-color: #fafafa;
+    border: 1px solid #f0f0f0; }
+  article .highlight {
+    font-family: 'Source Code Pro', monospace;
+    margin-top: 1em;
+    margin-bottom: 1.6em;
+    font-size: 90%;
+    overflow-y: hidden;
+    padding: 1em;
+    padding-left: 2em;
+    background-color: #fafafa; }
+    article .highlight pre, article .highlight code {
+      font-family: 'Source Code Pro', monospace; }
+
+h2 {
+  display: block;
+  -webkit-margin-before: 0.67em;
+  -webkit-margin-after: 0.67em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px; }
+
+h1 a, h2 a, h3 a {
+  color: inherit;
+  text-decoration: none; }
+
+.index {
+  list-style-type: none;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.3em;
+  padding: 0;
+  margin: 0; }
+  .index li h3 {
+    display: inline-block; }
+  .index li:before {
+    margin-right: 1em;
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f126";
+    display: inline-block; }

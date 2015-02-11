@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Boolean Operators for Options | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/boolean-option-scala.html">Boolean Operators for Options</a></h2>
+<div>
+	<p>Options in scala are very useful and help you explicitly specify if your methods might return no value (where you would return <code>null</code> in Java) and when parameters are optional.</p>
+<p>For instance, you might have a REST endpoint with something like this:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">users</span>(</span>nameFilter: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>], cityFilter: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>])
+</code></pre>
+<p>Option are usually managed with <code>match</code>, <code>map</code> and <code>flatMap</code>, or for comprehensions. But imagine you want to do a simple test, to know if you have at least one filter, <code>match</code> would be cumbersome, as you will have to define loads of cases. But you can do this with a simple test:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">withFilter</span> =</span> nameFilter.isDefined || cityFilter.isDefined
+</code></pre>
+<p>If you start doing this with many Options, you end up with a lot of <code>isDefined</code> and your code becomes a bit less readable than it could be. Wouldn&#39;t it be good if you could just do: <code>nameFilter || cityFilter</code>, after all Options are very similar to Booleans, they are either &quot;true&quot; (defined), or not.</p>
+<p>With scala implicit conversion, this is very simple, we can just convert option to Boolean: </p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">implicit</span> <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">optToBool</span>(</span>opt: <span class="hljs-type">Option</span>[_]): <span class="hljs-type">Boolean</span> = opt.isDefined
+</code></pre>
+<p>This will give:</p>
+<pre class="highlight"><code class="hljs scala">
+<span class="hljs-type">Some</span>(<span class="hljs-number">10</span>) || <span class="hljs-type">None</span>         <span class="hljs-comment">//&gt; res0: Boolean = true</span>
+<span class="hljs-type">Some</span>(<span class="hljs-number">10</span>) || <span class="hljs-type">Some</span>(<span class="hljs-number">20</span>)  <span class="hljs-comment">//&gt; res1: Boolean = true</span>
+<span class="hljs-type">None</span> || <span class="hljs-type">Some</span>(<span class="hljs-number">20</span>)         <span class="hljs-comment">//&gt; res2: Boolean = true</span>
+<span class="hljs-type">None</span> || <span class="hljs-type">None</span>                <span class="hljs-comment">//&gt; res3: Boolean = false</span>
+
+<span class="hljs-type">Some</span>(<span class="hljs-number">10</span>) &amp;&amp; <span class="hljs-type">Some</span>(<span class="hljs-number">20</span>)  <span class="hljs-comment">//&gt; res4: Boolean = true</span>
+<span class="hljs-type">Some</span>(<span class="hljs-number">10</span>) &amp;&amp; <span class="hljs-type">None</span>         <span class="hljs-comment">//&gt; res5: Boolean = false</span>
+<span class="hljs-type">None</span> &amp;&amp; <span class="hljs-type">Some</span>(<span class="hljs-number">20</span>)        <span class="hljs-comment">//&gt; res6: Boolean = false</span>
+<span class="hljs-type">None</span> &amp;&amp; <span class="hljs-type">None</span>               <span class="hljs-comment">//&gt; res7: Boolean = false</span>
+</code></pre>
+
+</div>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>
