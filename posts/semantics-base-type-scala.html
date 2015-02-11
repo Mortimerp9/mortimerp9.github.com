@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Adding Semantic to Base Types Parameters in Scala | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/semantics-base-type-scala.html">Adding Semantic to Base Types Parameters in Scala</a></h2>
+<div>
+	<p>Here is another &quot;fun&quot; dive in the complex type system of Scala. This was inspired by <a href="http://etorreborre.blogspot.de/2011/11/practical-uses-for-unboxed-tagged-types.html">Eric Torreborre&#39;s post</a> that gives a very good use case for what I am going to show, but I wanted to share another one.</p>
+<p>I am giving a simple example here, it&#39;s a bit naive and there would be other ways to implement it, but I hope you will still understand the overarching concept: being able to annotate the meaning of basic type parameters (and variables) such as <code>Int</code>, <code>List[String]</code>, etc.
+This will help the compiler can automatically detect more errors and a code reviewer to understand better what&#39;s going on.</p>
+<h3 id="a-use-case">A Use Case</h3>
+<p>Imagine that you are trying to get users to score products. Each product can be scored along different dimensions: design, usability, durability.</p>
+<p>You could represent a score with a simple object:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span>(</span>id: <span class="hljs-type">Long</span>)
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Product</span>(</span>id: <span class="hljs-type">Long</span>)
+
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Scoring</span>(</span>user: <span class="hljs-type">User</span>, product: <span class="hljs-type">Product</span>, design: <span class="hljs-type">Int</span>, usability: <span class="hljs-type">Int</span>, durability: <span class="hljs-type">Int</span>)
+</code></pre>
+<p>Now, you can create <code>Scoring</code> instances in your code <code>Scoring(u1, p1, 10, 15, 20)</code>.</p>
+<p>You will probably end up creating such objects in different parts of your code, from raw <code>Int</code>s coming from diverse sources, such as a REST request, or from parsing a line from your database.</p>
+<p>The issue here is that the <code>Scoring</code> constructor is simple, but not very safe. If you are like me, you will have to go check in the documentation to know in what order to set the parameters. </p>
+<p>For instance, you might write something like this, to create an instance with Anorm from a database query:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseProduct</span>(</span>row: <span class="hljs-type">Row</span>): <span class="hljs-type">Product</span> = …
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseUser</span>(</span>row: <span class="hljs-type">Row</span>): <span class="hljs-type">User</span> = …
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseScoring</span>(</span>row: <span class="hljs-type">Row</span>): <span class="hljs-type">Scoring</span> = <span class="hljs-type">Scoring</span>(
+        parseProduct(row), 
+        parseUser(row),
+        row[<span class="hljs-type">Int</span>](<span class="hljs-string">"design"</span>),
+        row[<span class="hljs-type">Int</span>](<span class="hljs-string">"durability"</span>),
+        row[<span class="hljs-type">Int</span>](<span class="hljs-string">"usability"</span>)
+)
+</code></pre>
+<p>There are two errors in this code:</p>
+<ol>
+<li>the scala compiler performing type check would straightaway flag the inverted product/user parameters as a compilation error: <code>type mismatch;  found   : Product required: User</code>,</li>
+<li>however, the second error, inverting the <code>durability</code> score and the <code>usability</code> score will not be spotted by the compiler and even a code reviewer would have to be very concentrated to spot such a trivial error.</li>
+</ol>
+<h3 id="wrappers">Wrappers</h3>
+<p>The simple solution would be to create wrapper classes for each type of score:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Design</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">score</span>:</span> <span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">AnyVal</span>
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Usability</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">score</span>:</span> <span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">AnyVal</span>
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Durability</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">score</span>:</span> <span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">AnyVal</span>
+
+<span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Scoring</span>(</span>user: <span class="hljs-type">User</span>, product: <span class="hljs-type">Product</span>, design: <span class="hljs-type">Design</span>, usability: <span class="hljs-type">Usability</span>, durability: <span class="hljs-type">Durability</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseScoring</span>(</span>row: <span class="hljs-type">Row</span>): <span class="hljs-type">Scoring</span> = <span class="hljs-type">Scoring</span>(
+        parseUser(row),
+        parseProduct(row), 
+        <span class="hljs-type">Design</span>(row[<span class="hljs-type">Int</span>](<span class="hljs-string">"design"</span>)),
+        <span class="hljs-type">Usability</span>(row[<span class="hljs-type">Int</span>](<span class="hljs-string">"usability"</span>)),
+        <span class="hljs-type">Durability</span>(row[<span class="hljs-type">Int</span>](<span class="hljs-string">"durability"</span>))
+)
+</code></pre>
+<p>This makes a bit more code to write, but it explicitly marks the semantic of the <code>Int</code>s that you are passing in; making the code easier to understand and the scala compiler will now complain when you create <code>Scoring</code> with the scores in the wrong order. If you instantiate a <code>Usability</code> score with the <code>&quot;durability&quot;</code> column, the compiler won&#39;t know the different, but an attentive reviewer would quickly spot the confusion.</p>
+<p>Note the <code>AnyVal</code> extension on the case classes, this is a new feature of scala 2.10, called <a href="http://docs.scala-lang.org/overviews/core/value-classes.html">value classes</a>. This tells the compiler that these types are just wrappers for typechecking, but that they can be optimized at runtime to their inner value, without the expensive creation of the wrapper object.</p>
+<p>This is already quite a good solution and it will go a long way. But imagine that you now want to compute the average of all the scores of a product, you might have a list of <code>Scoring</code> for a product and will <code>foldLeft</code> on it to sum up every scores. However, because you have included new types, you can&#39;t just sum <code>prod1.design + prod2.design</code> as the operation <code>+</code> is not defined on the <code>Design</code> class. You end up having to either write: <code>Design(prod1.design.score + prod2.design.score)</code> which makes your code more cumbersome than it should be.</p>
+<p>You could also implement a proxy <code>+</code> operator in all new wrapper case class and replicate all other operations you might need within the wrapper.
+When it&#39;s just one operation, for three case classes, that&#39;s fine. But if you deal with more complex basic types, such as <code>String</code> or composed types, such as <code>List[Int]</code> or <code>Future[Int]</code>, you might end up having to proxy a lot of operations in your wrappers. If you have loads of such wrappers, it might be a lot of extra code.</p>
+<h3 id="unboxed-tagged-types">Unboxed Tagged Types</h3>
+<p>The idea that I have decided to follow, inspired by <a href="http://etorreborre.blogspot.de/2011/11/practical-uses-for-unboxed-tagged-types.html">Eric&#39;s article</a>, is to use <strong>&quot;Unboxed Tagged Types&quot;</strong>.
+The idea is that you can &quot;tag&quot; types (and not just basic types) with a keyword, without loosing all its operations as you would with a simple wrapper. </p>
+<p>The principle is simple and it is basic object oriented inheritance:  to retain all the features of <code>Int</code> you can define a class:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DesignScore</span> <span class="hljs-keyword"><span class="hljs-keyword">extends</span></span> <span class="hljs-title">Int</span>
+</span></code></pre>
+<p>However, we use a scala trick to make this definition easier and to avoid actually creating new objects: <em>type aliases</em>.
+ It takes a very simple code scaffold:</p>
+<pre class="highlight"><code class="hljs scala"> <span class="hljs-comment">//code from Eric's article</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Tagged</span>[</span><span class="hljs-type">U</span>] = { <span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">Tag</span> =</span> <span class="hljs-type">U</span> }
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">@@</span>[</span><span class="hljs-type">T</span>, <span class="hljs-type">U</span>] = <span class="hljs-type">T</span> <span class="hljs-keyword">with</span> <span class="hljs-type">Tagged</span>[<span class="hljs-type">U</span>]
+</code></pre>
+<ul>
+<li><code>Tagged[U]</code> defines a new type, which just adds a type property containing the parameter type <code>U</code>. I.E it&#39;s a type that has an annotation <code>U</code>. So if you wrote <code>type TaggedInt = Int with Tagged[Design]</code>, you would just define a new type alias,  which extends <code>Int</code> and tags it with the new inner type property <code>type Tag = Design</code>. </li>
+<li><code>@@[T, U]</code> is only a convenient shortcut to extend types with the Tagged interface. So you could write the previous example with: <code>type TaggedInt = Int @@ Design</code></li>
+</ul>
+<p>You can add this snippet to your own code or use the implementation provided by <a href="http://typelevel.org/">scalaz</a>, which is pretty much equivalent.</p>
+<p>Right, this is still pretty abstract; so don&#39;t worry if you are not getting it yet. Just see it as a tool to annotate types. Let&#39;s see how to use it now with our previous example.</p>
+<p>First, we define &quot;tags&quot; that will allow us to annotate the <code>Int</code> basic type with some contextual information:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Design</span>
+</span><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Usability</span>
+</span><span class="hljs-class"><span class="hljs-keyword">trait</span> <span class="hljs-title">Durability</span>
+</span></code></pre>
+<p>These traits don&#39;t do anything except existing as a known type for the compiler, you can see them as constants, or values of an enum, at the type level. We can now use them to define our tagged types:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">DesignScore</span> =</span> <span class="hljs-type">Int</span> @@ <span class="hljs-type">Design</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">UsabilityScore</span> =</span> <span class="hljs-type">Int</span> @@ <span class="hljs-type">Usability</span>
+<span class="hljs-class"><span class="hljs-keyword">type</span> <span class="hljs-title">DurabilityScore</span> =</span> <span class="hljs-type">Int</span> @@ <span class="hljs-type">Durability</span>
+</code></pre>
+<p>These type aliases just represent an extension of the type <code>Int</code> with an embedded type parameter <code>Tag</code>. We can use these as we would use any other type, so as for our previous example:</p>
+<pre class="highlight"><code class="hljs scala"> <span class="hljs-keyword">case</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Scoring</span>(</span>user: <span class="hljs-type">User</span>, product: <span class="hljs-type">Product</span>,
+                    design: <span class="hljs-type">DesignScore</span>,
+                    usability: <span class="hljs-type">UsabilityScore</span>,
+                    durability: <span class="hljs-type">DurabilityScore</span>)
+</code></pre>
+<p>Because <code>DesignScore</code> is just a subclass of <code>Int</code>, it inherits all its operations, and we can now use the sum operator: <code>prod1.design+prod2.design</code>.</p>
+<p>However, we are still missing something: scala doesn&#39;t know how to create a <code>DesignScore</code>, as when you write <code>val score = 1</code>, you get an <code>Int</code> and scala doesn&#39;t know apriori how to convert this to a subtype of <code>Int</code>. This actually plays in our favor, as it will force us to explicitely write the conversion when we need to assign an integer to something that needs a <code>DesignScore</code>.</p>
+<p>Let&#39;s write an extension of <code>Int</code> that knows how to do this conversion:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TaggedInt</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">i</span>:</span> <span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">AnyVal</span> {
+     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">design</span> =</span> i.asInstanceOf[<span class="hljs-type">DesignScore</span>]
+     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">usability</span> =</span> i.asInstanceOf[<span class="hljs-type">UsabilityScore</span>]
+     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">durability</span> =</span> i.asInstanceOf[<span class="hljs-type">DurabilityScore</span>]
+}
+</code></pre>
+<p>Note a few things:</p>
+<ol>
+<li>we use a <em>cast</em> to transform a superclass (<code>Int</code>) in a subclass (<code>DesignScore</code>), it might seem dirty, but it&#39;s safe as we will never encounter a case where we cannot perform the case,</li>
+<li>we are using a new feature of scala 2.10: an <em>implicit class</em> that extends <code>Int</code> with the new methods,</li>
+<li>we shouldn&#39;t use a direct <em>implicit conversion</em> between <code>Int</code> and <code>DesignScore</code> as we would loose the fact that now developers have to be explicit about how they want to use the <code>Int</code> type. Nothing would then stop you from using the Usability Int in a DesignScore slot.</li>
+<li>while I like the postfix operator style, you could just define unary operators if you prefer, without using an implicit class at all: <code>def design(i: Int): DesignScore = i.asInstanceOf[DesignScore]</code>.</li>
+</ol>
+<p>We can now create the <code>Scoring</code> object in the following manner <code>Scoring(u1, p1, 10.design, 15.usability, 20.durability)</code>. And in our previous database parsing example:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">parseScoring</span>(</span>row: <span class="hljs-type">Row</span>): <span class="hljs-type">Scoring</span> = <span class="hljs-type">Scoring</span>(
+        parseUser(row),
+        parseProduct(row), 
+        row[<span class="hljs-type">Int</span>](<span class="hljs-string">"design"</span>).design,
+        row[<span class="hljs-type">Int</span>](<span class="hljs-string">"usability"</span>).durability,
+        row[<span class="hljs-type">Int</span>](<span class="hljs-string">"durability"</span>).usability
+)
+</code></pre>
+<p>As you can see, it&#39;s already a bit easier to spot the error, and if you don&#39;t the compiler will complain anyway.</p>
+<p>I hope that through this simplistic example, you have been able to understand how <strong>Unboxed Tagged Types</strong> can help. Explicitly annotating the use of non semantic basic types (<code>Int</code>, <code>String</code>, <code>List[Int]</code>, …) in your code will have two benefits:</p>
+<ol>
+<li>in many cases, the compiler will warm you when you are using a value in the wrong slot.</li>
+<li>by annotating method signatures (<em>in</em> and <em>out</em> types), and the uses of raw types in your code, this one will be easier to understand and you will hopefully make less errors and quickly spot bugs.</li>
+</ol>
+<h3 id="parameter-validation">Parameter Validation</h3>
+<p>As <a href="http://www.folone.info/blog/Typelevel-Hackery/">George Leontiev</a> points out, you can also use this feature to perform validation.   </p>
+<p>In our example, the scores are unbounded, you could pass in any value without anyone complaining. Ideally, you would probably want to have them in a bounded range, let&#39;s say between 0 and 5. </p>
+<p>The usual approach would be to validate the input when the user inputs a value. But then, in the rest of the code, there is nothing stopping you from making bad operations on the values.</p>
+<p>Clearly, this is not something you can deal with at compile time as you do not know what user inputs you will get or what the values in the database
+will be. However, you can build in some gards to warn you when something is wrong.</p>
+<p>As we have seen, we cannot build the tagged types without going through the explicit call to the <code>design</code>, <code>durability</code> or <code>usability</code> functions. So we can just extend these functions to add checks on the ranges:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TaggedInt</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">i</span>:</span> <span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">AnyVal</span> {
+     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">design</span> =</span> {
+         require(i &gt;= <span class="hljs-number">0</span> &amp;&amp; i &lt;= <span class="hljs-number">5</span>, <span class="hljs-string">"the design score has to be between 0 and 5"</span>)
+         i.asInstanceOf[<span class="hljs-type">DesignScore</span>]
+     }
+     ...
+}
+</code></pre>
+<p>Now, the validation of your parameters is built-in the &quot;type&quot; that defines it, if you call <code>Scoring(u1, p1, 10.design, 15.usability, 20.durability)</code>, an <code>IllegalArgumentException</code> will be thrown. If you check for such exception when receiving a score value, you can deal with it properly, report an error to the user, etc.</p>
+<p>If you prefer to use the <code>validation</code> pattern instead of catching exceptions, you can use <em>scalaz</em> <code>Validation</code> monad, or <code>scala</code> default <code>Option</code> or <code>Either</code> constructs:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TaggedInt</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">i</span>:</span> <span class="hljs-type">Int</span>) <span class="hljs-keyword">extends</span> <span class="hljs-type">AnyVal</span> {
+     <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">design</span>:</span> <span class="hljs-type">Either</span>[<span class="hljs-type">String</span>, <span class="hljs-type">DesignScore</span>] = {
+         <span class="hljs-keyword">if</span>(i &gt;= <span class="hljs-number">0</span> &amp;&amp; i &lt;= <span class="hljs-number">5</span>){
+            <span class="hljs-type">Right</span>(i.asInstanceOf[<span class="hljs-type">DesignScore</span>])
+         } <span class="hljs-keyword">else</span> {
+            <span class="hljs-type">Left</span>(<span class="hljs-string">"the design score has to be between 0 and 5"</span>)
+         }
+     }
+     ...
+}
+</code></pre>
+
+</div>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>

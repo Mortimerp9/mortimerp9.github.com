@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Proper configuration of H2 with Scala Slick for testing | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/slick-h2-scala.html">Proper configuration of H2 with Scala Slick for testing</a></h2>
+<div>
+	<p>Using <a href="www.h2database.com">H2</a> in memory database for running slick tests is tempting, but if you use a naive configuration, you will end up with very odd exceptions such as <code>Column &quot;X2.bar&quot; not found;</code> or <code>Table &quot;foo&quot; not found; SQL statement:</code>. </p>
+<p>There are two causes to these exception, and it most probably isn&#39;t an error in your code, but just a configuration trick that you missed. I eventually found the solution in a <a href="https://github.com/slick/slick/issues/166">(non) bug report on slick</a>.</p>
+<p>The first issue, is that if you create the tables in one session and run your tests in another session, something like: </p>
+<pre class="highlight"><code class="hljs scala">    test(<span class="hljs-string">"Foo should Bar"</span>) {
+
+        <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">conn</span> =</span> <span class="hljs-type">SlickDatabase</span>.forURL(<span class="hljs-string">"jdbc:h2:mem:test"</span>, driver = <span class="hljs-string">"org.h2.Driver"</span>)
+
+        conn.withSession {
+          <span class="hljs-keyword">import</span> scala.slick.session.<span class="hljs-type">Database</span>.threadLocalSession
+          <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">t</span> =</span> <span class="hljs-type">MyTable</span>
+          t.ddl.create     
+        }
+
+       <span class="hljs-type">Foo</span>.bar(conn) should be(<span class="hljs-string">"foobar"</span>)
+    }
+</code></pre>
+<p>where <code>Foo.bar</code> uses its own session to run things. The in memory database will only live as long as the first session, so the <code>Foo.bar</code> call will see an &quot;new&quot; empty database. To get around this, you need to tell H2 to keep the database in memory as long as the JVM lives and not as long as the session lives:</p>
+<pre class="highlight"><code class="hljs scala">    <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">conn</span> =</span> <span class="hljs-type">SlickDatabase</span>.forURL(<span class="hljs-string">"jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"</span>, driver = <span class="hljs-string">"org.h2.Driver"</span>)
+</code></pre>
+<p>This will go around the first <code>Table not found</code> exception, but the code won&#39;t work straight away if you used lower case names for your table and columns as H2 tends to uppercase everything by default. That&#39;s where finding what&#39;s going on is not straightforward. The solution is simple though, you need to tell H2 not to uppercase the world:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">conn</span> =</span> <span class="hljs-type">SlickDatabase</span>.forURL(<span class="hljs-string">"jdbc:h2:mem:test;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1"</span>, driver = <span class="hljs-string">"org.h2.Driver"</span>)
+</code></pre>
+
+</div>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>

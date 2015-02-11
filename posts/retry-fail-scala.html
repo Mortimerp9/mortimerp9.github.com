@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Retry a fail-able block in Scala | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/retry-fail-scala.html">Retry a fail-able block in Scala</a></h2>
+<div>
+	<p>I have seen a few implementations of this online, in particular <a href="http://www.scalasteps.com/2011/05/retrying-with-style.html">Retrying with style</a>, which is a two years old post and has a few things that bothered me: </p>
+<ol>
+<li>it&#39;s blocking, Futures where not in scala at the time,</li>
+<li>it uses mutable variables, which are not intrinsically bad in such a contained context; but my editor highlights them in red and I don&#39;t like having red bits in my code :D</li>
+</ol>
+<p>I have thus created a <a href="https://gist.github.com/Mortimerp9/5430595">new implementation available at this gist</a>.</p>
+<p>The idea is that you could have a block of code that fails for any kind of reasons which are non deterministic. For instance, a call to the DB could fail because the connection queue is full, or a request to a webservice could fail because the &quot;internet is busy&quot;.</p>
+<p>Instead of writting a loop and a lot of code relevant to the retry part, you can write a block wrapper in scala that will take care of everything in the background for you:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">myResult</span> =</span> retry(<span class="hljs-number">10</span>) {
+   ...
+   makeWSCall()
+   ...
+}
+</code></pre>
+<p>This is what the little bit of code that I have put in <a href="https://gist.github.com/Mortimerp9/5430595">this gist</a> does. I won&#39;t copy all of it here as it&#39;s too long, but here are some comments on how it works:</p>
+<ul>
+<li>I use a <code>Promise</code> to eventually embed a value in a <code>Future</code>. The future of that promise is returned directly and the tries are executed asynchronously.</li>
+<li>if an exception is caught, it tries again, unless it has exhausted the given number of retries, in which case it fails the future.</li>
+<li>as soon as the result can be computed without exceptions, it is returned in the future.</li>
+</ul>
+<p>Because the block returns a <code>Future</code>, the retries are executed asynchronously, hopefully not blocking your data flow. You can use the <code>Future</code> API to manipulate the value eventually returned:</p>
+<pre class="highlight"><code class="hljs scala">myResult.map(_ * <span class="hljs-number">2</span>)
+</code></pre>
+<p>You can also use the built-in recovery methods of <code>Future</code> to deal with a failed result (too many retries):</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">myResult</span> =</span> retry(<span class="hljs-number">10</span>) {
+   ...
+   makeWSCall()
+   ...
+} recover {
+  <span class="hljs-keyword">case</span> t: <span class="hljs-type">Throwable</span> =&gt; <span class="hljs-number">0</span>
+}
+</code></pre>
+<p>The <code>retry</code> function also provides some advanced optional parameters:</p>
+<ul>
+<li>in addition to the mandatory maximum retry count, you can define an optional deadline after which it should just give up:</li>
+</ul>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">myResult</span> =</span> retry(<span class="hljs-number">10</span>, <span class="hljs-type">Some</span>(<span class="hljs-number">10</span> seconds fromNow)) {
+   ...
+   makeWSCall()
+   ...
+}
+</code></pre>
+<ul>
+<li>by default, the block will be retried with an <a href="en.wikipedia.org/wiki/Exponential_backoff">exponential back-off</a>, as it is often used to deal with resources that don&#39;t like to be overloaded, you can change this default if you want</li>
+</ul>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">myResult</span> =</span> retry(<span class="hljs-number">10</span>, backoff = (r) =&gt; <span class="hljs-number">100</span> milliseconds) {
+   ...
+   makeWSCall()
+   ...
+}
+</code></pre>
+<ul>
+<li>if you want the block to fail without retry for particular exceptions, you can specify a filtering function with the <code>ignoreThrowable</code> optional parameter</li>
+</ul>
+
+</div>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Safely parsing Strings to numbers in Scala | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/parse-int-scala.html">Safely parsing Strings to numbers in Scala</a></h2>
+<div>
+	<h3 id="too-much-boilerplate">Too much boilerplate</h3>
+<p>In Java and Scala, you can convert <code>String</code> to numbers pretty easily, but as you might imagine, not all strings will convert to a number. In both languages, to safely convert your strings, you need to be ready to catch a <code>NumberFormatException</code>. This often creates quite a lot of boilerplate, even in scala.</p>
+<p>Once you have caught that exception, it&#39;s not clear what to return in the code. In java, you would either return a null, or some default value, but <code>null</code> is evil and it&#39;s giving a lot of responsibility to a function to let it decide what is the right default value. The solution to this in Scala is to return an <code>Option</code> and return <code>None</code> in case of an exception (or use <code>Either</code> if you want more info about your exception). You end up with a code like this:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">safeStringToInt</span>(</span>str: <span class="hljs-type">String</span>): <span class="hljs-type">Option</span>[<span class="hljs-type">Int</span>] = <span class="hljs-keyword">try</span> {
+   <span class="hljs-type">Some</span>(str.toInt)
+} <span class="hljs-keyword">catch</span> {
+   <span class="hljs-keyword">case</span> <span class="hljs-type">NumberFormatException</span> =&gt; <span class="hljs-type">None</span>
+}
+</code></pre>
+<p>But seriously, that&#39;s a lot of boilerplate for a simple operation that is used pretty often. However, scala creators thought of this kind of cases and provide a nice little tool to do such <code>try/catch</code> that returns an <code>Option</code>, and it&#39;s all in the <a href="http://www.scala-lang.org/api/current/index.html#scala.util.control.Exception$">Exception util class</a>:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">safeStringToInt</span>(</span>str: <span class="hljs-type">String</span>): <span class="hljs-type">Option</span>[<span class="hljs-type">Int</span>] = {
+    <span class="hljs-keyword">import</span> scala.util.control.<span class="hljs-type">Exception</span>._
+    catching(classOf[<span class="hljs-type">NumberFormatException</span>]) opt str.toInt
+}
+</code></pre>
+<p>That&#39;s already a lot better!</p>
+<h3 id="make-it-an-util">Make it an util</h3>
+<p>While it&#39;s a lot less boilerplate, you need to have this method in your context somewhere and then call it. If you come form Java, you would think of doing this with a static method in some util class. In Scala, there is a much neatier way of doing it: implicits!</p>
+<p>Ok, in my two last posts, I complained about implicits, but I was talking about implicit arguments. There is actually some cool implicits in scala:
+<strong>Implicit conversions</strong> allow you to transparently add postfix function to existing types, without having to modify their sources. In scala 2.10, this has been made a lot easier with <em>implicit classes</em>:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">StringUtils</span> {</span>
+     <span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StringImprovements</span>(</span><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">s</span>:</span> <span class="hljs-type">String</span>) {
+         <span class="hljs-keyword">import</span> scala.util.control.<span class="hljs-type">Exception</span>._
+         <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">toIntOpt</span> =</span> catching(classOf[<span class="hljs-type">NumberFormatException</span>]) opt s.toInt
+     }
+}
+</code></pre>
+<p>You can then <code>import StringUtils._</code> and call toIntOpt on any String:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-string">"1234"</span>.toIntOpt <span class="hljs-comment">//&gt; Some(1234)</span>
+<span class="hljs-string">"lkdsfasd"</span>.toIntOpt <span class="hljs-comment">//&gt; None</span>
+</code></pre>
+
+</div>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>
