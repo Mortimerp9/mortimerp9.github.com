@@ -17,6 +17,8 @@
 	<!-- DocPad Meta -->
 	<%- @getBlock('meta').toHTML() %>
 
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
 	<!-- DocPad Styles + Our Own -->
 	<%- @getBlock('styles').add(@site.styles).toHTML() %>
 
@@ -28,7 +30,10 @@
 	<![endif]-->
 
 	<header>
-		<h1><a href="<%= @site.url %>"><%- @site.title %></a></h1>
+	  <h1><a href="<%= @site.url %>"><%- @site.title %></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
 	</header>
 	<article>
 		<%- @content %>

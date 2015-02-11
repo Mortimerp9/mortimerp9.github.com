@@ -13,20 +13,18 @@ docpadConfig = {
 		site:
 			# The production url of our website
 			# If not set, will default to the calculated site URL (e.g. http://localhost:9778)
-			url: "http://website.com"
+			url: "http://www.pierreandrews.net"
 
 			# Here are some old site urls that you would like to redirect from
 			oldUrls: [
-				'www.website.com',
-				'website.herokuapp.com'
 			]
 
 			# The default title of our website
-			title: "Your Website"
+			title: "Pierre Andrews"
 
 			# The website description (for SEO)
 			description: """
-				When your website appears in search results in say Google, the text here will be shown underneath your website's title.
+				TODO
 				"""
 
 			# The website keywords (for SEO) separated by commas
@@ -39,6 +37,8 @@ docpadConfig = {
 				'/vendor/normalize.css'
 				'/vendor/h5bp.css'
 				'/styles/style.css'
+                '/styles/highlight.css'
+                '/styles/m8styles.css'
 			]
 
 			# The website's scripts
