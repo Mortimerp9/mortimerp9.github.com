@@ -1,0 +1,185 @@
+body {
+  margin: 8px;
+  font-family: "Raleway", Helvetica, sans-serif; }
+
+header, article {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 690px; }
+
+header {
+  padding-top: 20px;
+  margin-top: 20px;
+  margin-bottom: 70px;
+  max-width: 800px; }
+  header h1 {
+    text-indent: 3px;
+    font-size: 14px;
+    display: inline-block;
+    text-transform: uppercase;
+    margin: 0; }
+  header .right {
+    float: right;
+    display: inline-block;
+    text-transform: uppercase; }
+  header hr {
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center; }
+  header hr:after {
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+    content: "\f121";
+    display: inline-block;
+    position: relative;
+    top: -0.85em;
+    font-size: 0.9em;
+    padding: 0 0.25em;
+    background: white; }
+
+article {
+  margin-bottom: 100px; }
+  article h2 {
+    width: 80%;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 70px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 2.1em; }
+  article a {
+    text-decoration: none;
+    color: #358cce; }
+  article blockquote {
+    padding-left: 10px;
+    border-left: 5px solid #efefef;
+    margin: 0;
+    margin-bottom: 1.6em; }
+    article blockquote p {
+      font-style: italic; }
+  article p code {
+    font-family: 'Source Code Pro', monospace;
+    padding: 4px;
+    font-size: 90%;
+    background-color: #fafafa;
+    border: 1px solid #f0f0f0; }
+    article p code .hljs-comment, article p code .hljs-template_comment, article p code .diff .hljs-header, article p code .hljs-doctype, article p code .hljs-pi, article p code .lisp .hljs-string, article p code .hljs-javadoc {
+      color: #93a1a1;
+      font-style: italic; }
+    article p code .hljs-keyword, article p code .hljs-winutils, article p code .method, article p code .hljs-addition, article p code .css .hljs-tag, article p code .hljs-request, article p code .hljs-status, article p code .nginx .hljs-title {
+      color: #859900; }
+    article p code .hljs-number, article p code .hljs-command, article p code .hljs-string, article p code .hljs-tag .hljs-value, article p code .hljs-rules .hljs-value, article p code .hljs-phpdoc, article p code .tex .hljs-formula, article p code .hljs-regexp, article p code .hljs-hexcolor {
+      color: #2aa198; }
+    article p code .hljs-title, article p code .hljs-localvars, article p code .hljs-chunk, article p code .hljs-decorator, article p code .hljs-built_in, article p code .hljs-identifier, article p code .vhdl .hljs-literal, article p code .hljs-id, article p code .css .hljs-function {
+      color: #268bd2; }
+    article p code .hljs-attribute, article p code .hljs-variable, article p code .lisp .hljs-body, article p code .smalltalk .hljs-number, article p code .hljs-constant, article p code .hljs-class .hljs-title, article p code .hljs-parent, article p code .haskell .hljs-type {
+      color: #b58900; }
+    article p code .hljs-preprocessor, article p code .hljs-preprocessor .hljs-keyword, article p code .hljs-pragma, article p code .hljs-shebang, article p code .hljs-symbol, article p code .hljs-symbol .hljs-string, article p code .diff .hljs-change, article p code .hljs-special, article p code .hljs-attr_selector, article p code .hljs-important, article p code .hljs-subst, article p code .hljs-cdata, article p code .clojure .hljs-title, article p code .css .hljs-pseudo {
+      color: #cb4b16; }
+    article p code .hljs-deletion {
+      color: #dc322f; }
+    article p code .tex .hljs-formula {
+      background: #eee8d5; }
+  article .highlight {
+    font-family: 'Source Code Pro', monospace;
+    margin-top: 1em;
+    margin-bottom: 1.6em;
+    font-size: 90%;
+    overflow-y: hidden;
+    padding: 1em;
+    padding-left: 2em;
+    background-color: #4a525a;
+    color: #cbd1d8;
+    box-shadow: #272c30 0 0 0.5em 0.2em inset; }
+    article .highlight pre, article .highlight code {
+      font-family: 'Source Code Pro', monospace;
+      background-color: #4a525a;
+      color: #cbd1d8; }
+      article .highlight pre .hljs, article .highlight code .hljs {
+        display: block;
+        padding: 0.5em; }
+      article .highlight pre .hljs-comment, article .highlight pre .hljs-template_comment, article .highlight pre .diff .hljs-header, article .highlight pre .hljs-doctype, article .highlight pre .hljs-pi, article .highlight pre .lisp .hljs-string, article .highlight pre .hljs-javadoc, article .highlight code .hljs-comment, article .highlight code .hljs-template_comment, article .highlight code .diff .hljs-header, article .highlight code .hljs-doctype, article .highlight code .hljs-pi, article .highlight code .lisp .hljs-string, article .highlight code .hljs-javadoc {
+        color: #b1bac4;
+        font-style: italic; }
+      article .highlight pre .hljs-keyword, article .highlight pre .hljs-winutils, article .highlight pre .method, article .highlight pre .hljs-addition, article .highlight pre .css .hljs-tag, article .highlight pre .hljs-request, article .highlight pre .hljs-status, article .highlight pre .nginx .hljs-title, article .highlight code .hljs-keyword, article .highlight code .hljs-winutils, article .highlight code .method, article .highlight code .hljs-addition, article .highlight code .css .hljs-tag, article .highlight code .hljs-request, article .highlight code .hljs-status, article .highlight code .nginx .hljs-title {
+        color: #e0c090; }
+      article .highlight pre .hljs-string, article .highlight code .hljs-string {
+        color: #e9baba; }
+      article .highlight pre .hljs-property, article .highlight code .hljs-property {
+        color: #b9d0af; }
+      article .highlight pre .hljs-function, article .highlight code .hljs-function {
+        color: #abd9cf; }
+      article .highlight pre .hljs-class, article .highlight code .hljs-class {
+        color: #cee4dd; }
+      article .highlight pre .hljs-number, article .highlight pre .hljs-command, article .highlight pre .hljs-tag .hljs-value, article .highlight pre .hljs-rules .hljs-value, article .highlight pre .hljs-phpdoc, article .highlight pre .tex .hljs-formula, article .highlight pre .hljs-regexp, article .highlight pre .hljs-hexcolor, article .highlight code .hljs-number, article .highlight code .hljs-command, article .highlight code .hljs-tag .hljs-value, article .highlight code .hljs-rules .hljs-value, article .highlight code .hljs-phpdoc, article .highlight code .tex .hljs-formula, article .highlight code .hljs-regexp, article .highlight code .hljs-hexcolor {
+        color: #cba8d6; }
+      article .highlight pre .hljs-title, article .highlight pre .hljs-localvars, article .highlight pre .hljs-chunk, article .highlight pre .hljs-decorator, article .highlight pre .hljs-built_in, article .highlight pre .hljs-identifier, article .highlight pre .vhdl .hljs-literal, article .highlight pre .hljs-id, article .highlight pre .css .hljs-function, article .highlight code .hljs-title, article .highlight code .hljs-localvars, article .highlight code .hljs-chunk, article .highlight code .hljs-decorator, article .highlight code .hljs-built_in, article .highlight code .hljs-identifier, article .highlight code .vhdl .hljs-literal, article .highlight code .hljs-id, article .highlight code .css .hljs-function {
+        color: #a9c2ba; }
+      article .highlight pre .hljs-attribute, article .highlight pre .hljs-variable, article .highlight pre .lisp .hljs-body, article .highlight pre .smalltalk .hljs-number, article .highlight pre .hljs-constant, article .highlight pre .hljs-class .hljs-title, article .highlight pre .hljs-parent, article .highlight pre .haskell .hljs-type, article .highlight code .hljs-attribute, article .highlight code .hljs-variable, article .highlight code .lisp .hljs-body, article .highlight code .smalltalk .hljs-number, article .highlight code .hljs-constant, article .highlight code .hljs-class .hljs-title, article .highlight code .hljs-parent, article .highlight code .haskell .hljs-type {
+        color: #b9d0af; }
+      article .highlight pre .hljs-preprocessor, article .highlight pre .hljs-preprocessor .hljs-keyword, article .highlight pre .hljs-pragma, article .highlight pre .hljs-shebang, article .highlight pre .hljs-symbol, article .highlight pre .hljs-symbol .hljs-string, article .highlight pre .diff .hljs-change, article .highlight pre .hljs-special, article .highlight pre .hljs-attr_selector, article .highlight pre .hljs-important, article .highlight pre .hljs-subst, article .highlight pre .hljs-cdata, article .highlight pre .clojure .hljs-title, article .highlight pre .css .hljs-pseudo, article .highlight code .hljs-preprocessor, article .highlight code .hljs-preprocessor .hljs-keyword, article .highlight code .hljs-pragma, article .highlight code .hljs-shebang, article .highlight code .hljs-symbol, article .highlight code .hljs-symbol .hljs-string, article .highlight code .diff .hljs-change, article .highlight code .hljs-special, article .highlight code .hljs-attr_selector, article .highlight code .hljs-important, article .highlight code .hljs-subst, article .highlight code .hljs-cdata, article .highlight code .clojure .hljs-title, article .highlight code .css .hljs-pseudo {
+        color: #cee4dd; }
+      article .highlight pre .hljs-deletion, article .highlight code .hljs-deletion {
+        color: #dc322f; }
+      article .highlight pre .tex .hljs-formula, article .highlight code .tex .hljs-formula {
+        background: #e9baba; }
+  article a.tweet {
+    margin-top: 70px;
+    margin-bottom: 2px;
+    color: black;
+    width: 98%;
+    display: block;
+    text-align: right; }
+  article hr.comments {
+    padding: 0;
+    border: none;
+    border-top: medium double #333;
+    color: #333;
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 70px; }
+    article hr.comments:after {
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transform: translate(0, 0);
+      content: "\f120";
+      display: inline-block;
+      position: relative;
+      top: -0.85em;
+      font-size: 0.9em;
+      padding: 0 0.25em;
+      background: white; }
+
+h2 {
+  display: block;
+  -webkit-margin-before: 0.67em;
+  -webkit-margin-after: 0.67em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px; }
+
+h1 a, h2 a, h3 a {
+  color: inherit;
+  text-decoration: none; }
+
+.index {
+  list-style-type: none;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 1.3em;
+  padding: 0;
+  margin: 0; }
+  .index li h3 {
+    display: inline-block; }
+  .index li:before {
+    margin-right: 1em;
+    font: normal normal normal 14px/1 FontAwesome;
+    content: "\f126";
+    display: inline-block; }

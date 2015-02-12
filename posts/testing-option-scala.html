@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Testing an Option value without the gymnastics | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/testing-option-scala.html">Testing an Option value without the gymnastics</a></h2>
+<div>
+	<p>In <a href="https://coderwall.com/p/6lwybw">Boolean Operators for Option</a>, I have shown how to simply build test for the existence of an <code>Option</code>. Go check it out, the idea is simple and allows to write:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">opt1</span> =</span> <span class="hljs-type">Some</span>(<span class="hljs-string">"string"</span>)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">opt2</span> =</span> <span class="hljs-type">None</span>
+
+<span class="hljs-keyword">if</span>(opt1 &amp;&amp; opt2) ...
+</code></pre>
+<p>instead of the longer <code>if(opt1.isDefined &amp;&amp; opt2.isDefined) ...</code>. It&#39;s just a way to write things in a more straightforward maner.</p>
+<p>But what if you want to also test what&#39;s in the <code>Option</code>? You can use a <code>match</code> construct if you have only one option, but when you are mixing different things (like optional parameters), writing a match is a bit cumbersome and <code>if</code> is often more direct.</p>
+<p>Let&#39;s say that you have an optional parameter to a request, which is a string representing a special view. In addition to this optional parameter, you also have to test if you have a valid user ID in the request. You can do something like:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">request</span>(</span>userID: <span class="hljs-type">Long</span>, view: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>]) {
+    validateUser(userID) <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> <span class="hljs-type">None</span> =&gt; ...
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>(user) <span class="hljs-keyword">if</span> view &amp;&amp; view.get.equals(<span class="hljs-string">"details"</span>) =&gt; ...
+        <span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>(user) =&gt; ...
+    }
+}
+</code></pre>
+<p>this <code>view &amp;&amp; view.get.equals(&quot;details&quot;)</code> is a bit cumbersome, but <code>Option</code> following the collection API, you can use a very nice shortcut to write all this:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">case</span> <span class="hljs-type">Some</span>(user) <span class="hljs-keyword">if</span> view.exist(_.equals(<span class="hljs-string">"details"</span>)) =&gt; ...
+</code></pre>
+<p>The <code>exist</code> function only returns true if the Option is <code>Some</code> <strong>and</strong> the predicate you are providing returns true. Here is what the doc says:</p>
+<blockquote>
+<p>Returns true if this option is nonempty and the predicate p returns true when applied to this scala.Option&#39;s value. Otherwise, returns false.</p>
+</blockquote>
+<p>That&#39;s it. The <code>exists</code> name might be a bit confusing, so you could write an alias:</p>
+<pre class="highlight"><code class="hljs scala">  <span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RichOpt</span>[</span><span class="hljs-type">T</span>](opt: <span class="hljs-type">Option</span>[<span class="hljs-type">T</span>]) {
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">assert</span>(</span>p: <span class="hljs-type">T</span> =&gt; <span class="hljs-type">Boolean</span>): <span class="hljs-type">Boolean</span> = opt.exists(p)
+  }
+</code></pre>
+<p>or even, if you only deal with <code>String</code> in the <code>Option</code>:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StrOpt</span>(</span>opt: <span class="hljs-type">Option</span>[<span class="hljs-type">String</span>]) {
+      <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">strEquals</span>(</span>s: <span class="hljs-type">String</span>): <span class="hljs-type">Boolean</span> = opt.exists(_.equals(s))
+  }
+</code></pre>
+<p>that you can use:</p>
+<pre class="highlight"><code class="hljs scala">  <span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">opt1</span> =</span> <span class="hljs-type">Some</span>(<span class="hljs-string">"string"</span>)      <span class="hljs-comment">//&gt; opt1  : Some[String] = Some(string)</span>
+  opt1.assert(_.equals(<span class="hljs-string">"test"</span>))<span class="hljs-comment">//&gt; res0: Boolean = false</span>
+  opt1.strEquals(<span class="hljs-string">"string"</span>)       <span class="hljs-comment">//&gt; res1: Boolean = true</span>
+</code></pre>
+
+</div>
+<a href="https://twitter.com/intent/tweet?via=mortimer_m8&url=http%3A//www.pierreandrews.net/posts/testing-option-scala.html&text=Testing%20an%20Option%20value%20without%20the%20gymnastics" title="Tweet This" class="tweet" target="_blank"><i class="fa fa-twitter"></i></a>
+<hr class="comments">
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'pierreandrews'; 
+  (function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>

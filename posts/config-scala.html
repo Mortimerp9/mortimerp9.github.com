@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- Standard Meta -->
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- Site Properities -->
+	<title>Easier access to Configuration values with Typesafe Config | Pierre Andrews</title>
+	<meta name="description" content="The personal website/blog of Pierre Andrews" />
+	<meta name="keywords" content="pierre, andrews, phd, trento, unitn, knowdive, scala, nodejs" />
+
+	<!-- DocPad Meta -->
+	<meta name="generator" content="DocPad v6.69.2" />
+
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,800" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
+	<!-- DocPad Styles + Our Own -->
+	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20297441-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</head>
+<body>
+	<!--[if lt IE 7]>
+	<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+      <div class="right">
+        <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
+      </div>
+      <hr>
+	</header>
+	<article>
+		<h2><a href="/posts/config-scala.html">Easier access to Configuration values with Typesafe Config</a></h2>
+<div>
+	<p>It all started when I was trying to configure a set of scheduled tasks for <a href="http://www.playframework.com/">Play! 2</a>, and it got me launched on a &quot;scrap the boilerplate&quot; mission in my application configuration.</p>
+<p>With Play, you can use <code>Akka.system.scheduler.schedule</code> to launch recurring background tasks within your web application. To do this, you need to provide two <code>Duration</code> that define:</p>
+<ol>
+<li>when to start the scheduling</li>
+<li>how long to wait before repeating the task</li>
+</ol>
+<p>That&#39;s something that you wouldn&#39;t want hard coded, and Play provides <a href="http://www.playframework.com/documentation/2.1.0/Configuration">a nice way to read your <code>application.conf</code></a> file and parse durations. In fact, you can write something like</p>
+<pre class="highlight"><code class="hljs stylus">myapp<span class="hljs-class">.notifier</span><span class="hljs-class">.scheduleStart</span> = <span class="hljs-number">2</span> minutes
+myapp<span class="hljs-class">.notifier</span><span class="hljs-class">.scheduleEvery</span> = <span class="hljs-number">1</span> hour
+</code></pre><p>and use:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">import</span> <span class="hljs-type">Play</span>.current
+<span class="hljs-type">Play</span>.configuration.getMilliseconds(<span class="hljs-string">"myapp.notifier.scheduleStart"</span>)
+</code></pre>
+<p>which will return an <code>Option[Long]</code> wich maybe contains the configuration. So you also have to provide a default in your code, so really get a duration, you end up writting:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">import</span> <span class="hljs-type">Play</span>.current
+<span class="hljs-keyword">import</span> scala.concurrent.duration._
+<span class="hljs-type">Play</span>.configuration.getMilliseconds(<span class="hljs-string">"myapp.notifier.scheduleEvery"</span>).getOrElse(<span class="hljs-number">30000</span>l) milliseconds
+</code></pre>
+<p>The <code>getOrElse</code> is there to provide the default value in case you recieve a <code>None</code> and the <code>milliseconds</code> converts your <code>Long</code> to a duration object that can be understood by Akka.</p>
+<p>As you can see, I have more boilerplate than the actual length of my configuration key and my default value. The Play configuration system is cool, but it requires too much writing. If you have loads of things to configure in your code, you end up with a quite clutered code.</p>
+<p>But rejoice! Scala Magic™ is there to save us from RSI and from code that makes your reviewer want to kill someone. We can first write a function in our scope to do something like this:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configMilliseconds</span>(</span>key: <span class="hljs-type">String</span>, <span class="hljs-keyword">default</span>: <span class="hljs-type">FiniteDuration</span>): <span class="hljs-type">FiniteDuration</span> = 
+    <span class="hljs-type">Play</span>.configuration.getMilliseconds(key).map(_.milliseconds).getOrElse(<span class="hljs-keyword">default</span>)
+</code></pre>
+<p>This is already pretty neat, I can now do <code>configMilliseconds(&quot;myapp.notifier.scheduleEvery&quot;, 30 seconds)</code>… Isn&#39;t that a lot shorter? And it didn&#39;t take any magic yet.</p>
+<p>This code still has an issue, it requires to have an implicit play application in scope, also, I find that it doesn&#39;t put much emphasis on where the config is coming from. It would be cool to focus on the name of the configuration key, that would make our code even more readable (but that&#39;s my own opinion, I understand some might prefer the previous notation). All we have to do, is create a postfix operator for a configuration key, that is, a <code>String</code>.</p>
+<p>With scala 2.10, this is easy (it&#39;s not too hard with scala 2.9 either), we just write an implicit class which provides the conversions for us. Here is one that provides the set of configuration types that I use most:</p>
+<pre class="highlight"><code class="hljs scala"><span class="hljs-keyword">import</span> scala.concurrent.duration.<span class="hljs-type">FiniteDuration</span>
+<span class="hljs-keyword">import</span> scala.concurrent.duration._
+<span class="hljs-keyword">import</span> play.api.<span class="hljs-type">Application</span>
+<span class="hljs-keyword">import</span> collection.<span class="hljs-type">JavaConversions</span>._
+
+<span class="hljs-class"><span class="hljs-keyword">object</span> <span class="hljs-title">ConfigString</span> {</span>
+  <span class="hljs-keyword">implicit</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConfigStr</span>(</span>s: <span class="hljs-type">String</span>) {
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configOrElse</span>(</span><span class="hljs-keyword">default</span>: <span class="hljs-type">FiniteDuration</span>)(<span class="hljs-keyword">implicit</span> app: <span class="hljs-type">Application</span>): <span class="hljs-type">FiniteDuration</span> =
+      app.configuration.getMilliseconds(s).map(_ milliseconds).getOrElse(<span class="hljs-keyword">default</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configOrElse</span>(</span><span class="hljs-keyword">default</span>: <span class="hljs-type">Long</span>)(<span class="hljs-keyword">implicit</span> app: <span class="hljs-type">Application</span>): <span class="hljs-type">Long</span> =
+      app.configuration.getMilliseconds(s).getOrElse(<span class="hljs-keyword">default</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configOrElse</span>(</span><span class="hljs-keyword">default</span>: <span class="hljs-type">Double</span>)(<span class="hljs-keyword">implicit</span> app: <span class="hljs-type">Application</span>): <span class="hljs-type">Double</span> =
+      app.configuration.getDouble(s).getOrElse(<span class="hljs-keyword">default</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configOrElse</span>(</span><span class="hljs-keyword">default</span>: <span class="hljs-type">String</span>)(<span class="hljs-keyword">implicit</span> app: <span class="hljs-type">Application</span>): <span class="hljs-type">String</span> =
+      app.configuration.getString(s).getOrElse(<span class="hljs-keyword">default</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configOrElse</span>(</span><span class="hljs-keyword">default</span>: <span class="hljs-type">Boolean</span>)(<span class="hljs-keyword">implicit</span> app: <span class="hljs-type">Application</span>): <span class="hljs-type">Boolean</span> =
+      app.configuration.getBoolean(s).getOrElse(<span class="hljs-keyword">default</span>)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">configOrElse</span>(</span><span class="hljs-keyword">default</span>: <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>])(<span class="hljs-keyword">implicit</span> app: <span class="hljs-type">Application</span>): <span class="hljs-type">Seq</span>[<span class="hljs-type">String</span>]  =
+      app.configuration.getStringList(s).map(_.toSeq).getOrElse(<span class="hljs-keyword">default</span>)
+  }
+}
+</code></pre>
+<p>I can now just write: <code>&quot;myapp.notifier.scheduleEvery&quot; configOrElse(30 seconds)</code>. You can see that I have chosen a verbose name for the postfix function. Some might prefer shorter names, or go for crazy symbols like Scalaz does.</p>
+<p>There are a few things to notice in this code:</p>
+<ul>
+<li>instead of relying on the import of <code>Play.current</code>, I take an the app as an implicit argument, this makes it a bit more versatile</li>
+<li>all the functions have the same name <code>configOrElse</code>, scala figures out on its own what return type I want from the default value I provide.</li>
+<li>all I have to do now to have access to the config postfix functions is to <code>import ConfigString._</code> </li>
+</ul>
+<p>So, to schedule my task, before:</p>
+<pre class="highlight"><code class="hljs scala">
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">start</span> =</span> <span class="hljs-type">Play</span>.configuration.getMilliseconds(<span class="hljs-string">"myapp.notifier.startQueuing"</span>)
+.map(_.milliseconds).getOrElse(<span class="hljs-number">2</span> minutes)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">every</span> =</span> <span class="hljs-type">Play</span>.configuration.getMilliseconds(<span class="hljs-string">"myapp.notifier.queueEvery"</span>)
+.map(_.milliseconds).getOrElse(<span class="hljs-number">1</span> hour)
+
+<span class="hljs-type">Akka</span>.system.scheduler.schedule(start, every)
+(<span class="hljs-type">NotificationScheduler</span>.schedule)
+</code></pre>
+<p>after:</p>
+<pre class="highlight"><code class="hljs scala">
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">start</span> =</span> <span class="hljs-string">"myapp.notifier.startQueuing"</span> configOrElse(<span class="hljs-number">2</span> minutes)
+<span class="hljs-function"><span class="hljs-keyword">val</span> <span class="hljs-title">every</span> =</span> <span class="hljs-string">"myapp.notifier.synastry.queueEvery"</span> configOrElse(<span class="hljs-number">1</span> hour)
+<span class="hljs-type">Akka</span>.system(app).scheduler.schedule(start, every)
+        (<span class="hljs-type">NotificationScheduler</span>.schedule)
+</code></pre>
+<p>Finally, there is a <a href="https://gist.github.com/Mortimerp9/5249018">gist</a> for this code if you want to extend it or make it better.</p>
+
+</div>
+<a href="https://twitter.com/intent/tweet?via=mortimer_m8&url=http%3A//www.pierreandrews.net/posts/config-scala.html&text=Easier%20access%20to%20Configuration%20values%20with%20Typesafe%20Config" title="Tweet This" class="tweet" target="_blank"><i class="fa fa-twitter"></i></a>
+<hr class="comments">
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'pierreandrews'; 
+  (function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+	</article>
+	<footer></footer>
+
+	<!-- DocPad Scripts + Our Own -->
+	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+</body>
+</html>
