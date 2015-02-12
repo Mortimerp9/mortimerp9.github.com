@@ -1,3 +1,5 @@
+@import "codestyle";
+
 body {
     margin: 8px;
     font-family: "Raleway", Helvetica, sans-serif;
@@ -88,6 +90,7 @@ article {
         font-size: 90%;
         background-color: rgb(250,250,250);
         border: 1px solid #f0f0f0;
+        @include inline-codestyles;
     }
 
 
@@ -99,10 +102,49 @@ article {
         overflow-y: hidden;
         padding: 1em;
         padding-left: 2em;
-        background-color: rgb(250,250,250);
+        background-color: #4a525a;// rgb(250,250,250);
+        color: #cbd1d8;
+        box-shadow: #272c30 0 0 0.5em 0.2em inset;
 
         pre, code {
             font-family: 'Source Code Pro', monospace;
+            @include codestyles-highlight;
+            background-color: #4a525a;
+            color: #cbd1d8;
+        }
+    }
+
+    a.tweet {
+        margin-top: 70px;
+        margin-bottom: 2px;
+        color: black;
+        width: 98%;
+        display: block;
+        text-align: right;
+    }
+
+    hr.comments {
+        padding: 0;
+        border: none;
+        border-top: medium double #333;
+        color: #333;
+        text-align: center;
+        margin-top: 0px;
+        margin-bottom: 70px;
+        &:after {
+            font: normal normal normal 14px/1 FontAwesome;
+            font-size: inherit;
+            text-rendering: auto;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transform: translate(0, 0);
+            content: "\f120";
+            display: inline-block;
+            position: relative;
+            top: -0.85em;
+            font-size: 0.9em;
+            padding: 0 0.25em;
+            background: white;
         }
     }
 }
