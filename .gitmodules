@@ -1,0 +1,4 @@
+[submodule "dist"]
+	path = dist
+	url = git@github.com:Mortimerp9/mortimerp9.github.com.git
+	branch = master
