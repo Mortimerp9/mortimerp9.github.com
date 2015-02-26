@@ -22,7 +22,11 @@
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
 	<!-- DocPad Styles + Our Own -->
-	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+	<style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
 
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -41,7 +45,7 @@
 	<![endif]-->
 
 	<header>
-	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+	  <h1><a href="http://localhost:9778">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
       <div class="right">
         <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
       </div>
@@ -131,7 +135,7 @@ myapp<span class="hljs-class">.notifier</span><span class="hljs-class">.schedule
 <p>Finally, there is a <a href="https://gist.github.com/Mortimerp9/5249018">gist</a> for this code if you want to extend it or make it better.</p>
 
 </div>
-<a href="https://twitter.com/intent/tweet?via=mortimer_m8&url=http%3A//www.pierreandrews.net/posts/config-scala.html&text=Easier%20access%20to%20Configuration%20values%20with%20Typesafe%20Config" title="Tweet This" class="tweet" target="_blank"><i class="fa fa-twitter"></i></a>
+<a href="https://twitter.com/intent/tweet?via=mortimer_m8&url=http%3A//localhost%3A9778/posts/config-scala.html&text=Easier%20access%20to%20Configuration%20values%20with%20Typesafe%20Config" title="Tweet This" class="tweet" target="_blank"><i class="fa fa-twitter"></i></a>
 <hr class="comments">
 
 <div id="disqus_thread"></div>
@@ -147,6 +151,51 @@ myapp<span class="hljs-class">.notifier</span><span class="hljs-class">.schedule
 	<footer></footer>
 
 	<!-- DocPad Scripts + Our Own -->
-	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+	<script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
 </body>
 </html>

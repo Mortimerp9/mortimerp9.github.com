@@ -22,7 +22,11 @@
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"  type="text/css">
 	<!-- DocPad Styles + Our Own -->
-	<link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
+	<style >html.wait {
+	cursor: wait !important;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+}</style><link  rel="stylesheet" href="/vendor/normalize.css" /><link  rel="stylesheet" href="/vendor/h5bp.css" /><link  rel="stylesheet" href="/styles/style.css" /><link  rel="stylesheet" href="/styles/highlight.css" /><link  rel="stylesheet" href="/styles/m8styles.css" />
 
     <script type="text/javascript">
       var _gaq = _gaq || [];
@@ -41,7 +45,7 @@
 	<![endif]-->
 
 	<header>
-	  <h1><a href="http://www.pierreandrews.net">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
+	  <h1><a href="http://localhost:9778">Pierre Andrews&nbsp;<i class="fa fa-level-up"></i></a></h1>
       <div class="right">
         <a href="https://github.com/Mortimerp9" id="github"><i class="fa fa-github-square"></i></a>
       </div>
@@ -51,43 +55,102 @@
 		<ul class="index">
 	
 	<li>
-		<h3><a href="/posts/boolean-option-scala.html">Boolean Operators for Options</a></h3>
-		
+	  <h3>
+        
+        <a href="/posts/moretocome.html">More content coming soon...</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/config-scala.html">Easier access to Configuration values with Typesafe Config</a></h3>
-		
+	  <h3>
+        
+        <a href="http://pierreandrews.net/LogSplit/">LogSplit: an Akka Cluster annotated example</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/parse-int-scala.html">Safely parsing Strings to numbers in Scala</a></h3>
-		
+	  <h3>
+        
+        <a href="http://www.pierreandrews.net/MetaDataMover">MetaDataMover: Automator likes your metadata</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/retry-fail-scala.html">Retry a fail-able block in Scala</a></h3>
-		
+	  <h3>
+        
+        <a href="/posts/parse-int-scala.html">Safely parsing Strings to numbers in Scala</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/semantics-base-type-scala.html">Adding Semantic to Base Types Parameters in Scala</a></h3>
-		
+	  <h3>
+        
+        <a href="/posts/boolean-option-scala.html">Boolean Operators for Options</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/slick-h2-scala.html">Proper configuration of H2 with Scala Slick for testing</a></h3>
-		
+	  <h3>
+        
+        <a href="/posts/config-scala.html">Easier access to Configuration values with Typesafe Config</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/testing-option-scala.html">Testing an Option value without the gymnastics</a></h3>
-		
+	  <h3>
+        
+        <a href="/posts/retry-fail-scala.html">Retry a fail-able block in Scala</a>
+        
+      </h3>
+	  
 	</li>
 	
 	<li>
-		<h3><a href="/posts/wordwrap-scala.html">WordWrap with Scala</a></h3>
-		
+	  <h3>
+        
+        <a href="/posts/semantics-base-type-scala.html">Adding Semantic to Base Types Parameters in Scala</a>
+        
+      </h3>
+	  
+	</li>
+	
+	<li>
+	  <h3>
+        
+        <a href="/posts/slick-h2-scala.html">Proper configuration of H2 with Scala Slick for testing</a>
+        
+      </h3>
+	  
+	</li>
+	
+	<li>
+	  <h3>
+        
+        <a href="/posts/testing-option-scala.html">Testing an Option value without the gymnastics</a>
+        
+      </h3>
+	  
+	</li>
+	
+	<li>
+	  <h3>
+        
+        <a href="/posts/wordwrap-scala.html">WordWrap with Scala</a>
+        
+      </h3>
+	  
 	</li>
 	
 </ul>
@@ -95,6 +158,51 @@
 	<footer></footer>
 
 	<!-- DocPad Scripts + Our Own -->
-	<script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
+	<script >(function(){
+	/* Did we just livereload? */
+var log = !!(localStorage && console && console.log && true);
+if ( log && localStorage.getItem('/docpad-livereload/reloaded') === 'yes' ) {
+	localStorage.removeItem('/docpad-livereload/reloaded');
+	console.log('LiveReload completed at', new Date())
+}
+
+/* Listen for the regenerated event and perform a reload of the page when the event occurs */
+var listen = function(){
+	var primus = new Primus('/docpad-livereload');
+	primus.on('data', function(data){
+		if ( data && data.message ) {
+			if ( data.message === 'generateBefore' ) {
+				if ( log ) {
+					console.log('LiveReload started at', new Date());
+				}
+				if ( typeof document.getElementsByTagName !== 'undefined' ) {
+	document.getElementsByTagName('html')[0].className += ' wait';
+}
+			}
+			else if ( data.message === 'generateAfter' ) {
+				if ( log ) {
+					localStorage.setItem('/docpad-livereload/reloaded', 'yes');
+				}
+				document.location.reload();
+			}
+		}
+	});
+};
+	/* Inject socket into our page */
+var inject = function(){
+	var t = document.createElement('script');
+	t.type = 'text/javascript';
+	t.async = 'async';
+	t.src = '/primus/primus.js';
+	t.onload = listen;
+	var s = document.getElementsByTagName('script')[0];
+	s.parentNode.insertBefore(t, s);
+};
+	if ( typeof Primus !== 'undefined' ) {
+		listen();
+	} else {
+		inject();
+	}
+})();</script><script defer="defer"  src="/vendor/modernizr.js"></script><script defer="defer"  src="/scripts/script.js"></script>
 </body>
 </html>
