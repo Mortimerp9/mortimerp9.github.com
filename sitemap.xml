@@ -2,8 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url> <loc>http://localhost:9778/posts/retry-fail-scala.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://localhost:9778/googlee18483d62d53cfe0.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
-<url> <loc>http://localhost:9778/posts/config-scala.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://localhost:9778/404.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
+<url> <loc>http://localhost:9778/posts/config-scala.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://localhost:9778/posts/wordwrap-scala.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://localhost:9778/posts/testing-option-scala.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
 <url> <loc>http://localhost:9778/posts/parse-int-scala.html</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> </url>
