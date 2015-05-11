@@ -1,0 +1,81 @@
+==================================================================
+https://keybase.io/mortimer
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://pierreandrews.net
+  * I am mortimer (https://keybase.io/mortimer) on keybase.
+  * I have a public key with fingerprint BC13 E225 8D86 2CAB 6A1D  DA1C B532 8844 EF4E 808F
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "client": {
+            "name": "keybase.io node.js client",
+            "version": "0.7.8"
+        },
+        "key": {
+            "fingerprint": "bc13e2258d862cab6a1dda1cb5328844ef4e808f",
+            "host": "keybase.io",
+            "key_id": "B5328844EF4E808F",
+            "uid": "4e78e683c9b898b3cd6b802def0d5e00",
+            "username": "mortimer"
+        },
+        "merkle_root": {
+            "ctime": 1431362869,
+            "hash": "b5d41bd967b30357d993aa000d28d6712aa63892c728346f27f299be355a7d8359e380d28e57b4e63c147c07ef8198b5ec03bb203d5ca367ec46474afc2fa7bf",
+            "seqno": 219486
+        },
+        "service": {
+            "hostname": "pierreandrews.net",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1431362895,
+    "expire_in": 157680000,
+    "prev": "d696a09883e77fdce7652bb4389bc332b7315b9b29a9e02dc15c80f40c2b4c5c",
+    "seqno": 6,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owFdknlMHGUYxhdouVLTDZoSWyQwWAwtx9wHYEk425TSFWqlxbCdb+YbmLLswOxy
+Liu0JFYrKaBCNQIKLVihh6EKKVqktZdSwmUEqRCoIrEVSEswVhp1hmA8/pqZ7/3N
+8z7P+341T7gZPF0+xV+LX0ypqHbp/xkYXjRN7nUgQBFLkEgHIlhkaLXrb1Y+FyKR
+SA4sAbwNhstKgFURYfhhW8AaE4oUQtUmK1aNQsOZcBZxhuq4/rMkW7OgmqfKuhYC
+BIyAOE6xIkvjAg9oHhNFHhMAReAsS5JQIiGLspImma3Y7P/piqxqmmVRO41d4xMS
+yQSNT9RqBasFEjIspFlC4ADLsYAQRBqwKC5CCRUpiKI6aIPqWqRcRbXLuVDV/WqP
+HAs0q4qyGlrQC0gkRhIYQeMszWmOeFu2noESSQyIHM0AAiUoRuQ4gudRFBVxVqQZ
+DOd5mmA5XGBwliBpCWcknOMAJCiKZ0SWoDhIsDoMKQaQkCYEjGQElIESi2mWKSig
+BAA4SoiUwBM0AwWSJhmSlwRc4hmgz8YG860KEoljHMnSTv1bLZQFqPvWx7aWLk+G
+qgp5q6jCIlu4FeqLylMVuyIoFq2cbbfnRerJ7SV5Gt6JFEFgXlMyA9kqapv792ox
+Df3fVDgqFIHFebIKzbJOUAzNaoNA9T6wUOsh0hzNoxzLEpBhJFGADE3hAJDafIBA
+EDhgCIwCHMA5noPamgSMElhUIlEBB6RACf9kpTWffJYmaZOzrLy9QIWI83VXv3UG
+F0+D+3pX/e4avL2Mf1/obZNGQ9vRtqXqaxtuJx78oSAjLmjn8CdTo/XX9pT6NDQ/
+vJd87tiIA20d4NDKibCsiEdVf6ab628c31r7eObjk7HzxzZfUbwCWlNXhjytVExq
+t+eXZQ109Kb8pNSu5tpDo3Pn5hrTi93CpMkn9/a+XBLjDLNF5yKvXPz2zSOLE4GV
+zw3PSN1BpsDJfv+2u7u83/nddifK78GK78Ety4P5o3VgVIlqcfYRmN8B6vLpP0z4
+xLPxmSPT7R19C/67F5oi044zLzhMtae+gsHAu+fd8ikj/0xEQllSVmx/aJxHiONs
+YIuResM431V0A/U96exZml1/13zhZtt3GZnRnXOHLn3d/t5TKdu204YFS81MY8j0
+mZB71UxxLze1xzdt/xj/W29GYd9ZhP/A7X7VKWq/sTl8Y8eFtytNg/uk2Pga1x3f
+DJd2TAYddjHXtTwdXXLaZMA+x4z4JZ+3iAcrV3c+Gk/OSYgrX2pqSLs9YTJXTqWf
+GdqaMHL1xMJN/8fjVZZyx6xHUtn1od6itrox/xXlltJliI6w79vS+MWPs78Mx5w/
+/9nA5e2W5CoPUtxo2XBlMHj2wEtj33+UXTt2KyikbtNPKcGpMaTDvf3EjpL7u55f
+l7n74pGK4Kr3U5pm6gvjr5fOb47K7w/wLE3zeZgzD2zL7sulrw549XR+2Prr0cWp
+svHR7ooFrFGYRu/8BQ==
+=lUor
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/mortimer
+
+==================================================================
