@@ -1,0 +1,6 @@
+---
+layout: default
+---
+
+<h2>This content has moved to:</h2>
+<a href="<%= @document.link %>"><%- @document.title or @document.name %></a>
